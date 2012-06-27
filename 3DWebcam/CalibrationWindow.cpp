@@ -75,6 +75,11 @@ void CalibrationWindow::timerEvent(QTimerEvent*) {
 }
 
 void CalibrationWindow::savePicture(IplImage *rightTmp, IplImage *leftTmp) {
+	// Check if the directory exists
+	if(!QDir("imagenes").exists()) {
+		QDir().mkdir("imagenes");
+	}
+
 	FILE* list;
 
 	// Delete old files

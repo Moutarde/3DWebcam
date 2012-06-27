@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <QWidget>
+#include <QDir>
 
 #include "QOpenCVWidget.h"
 

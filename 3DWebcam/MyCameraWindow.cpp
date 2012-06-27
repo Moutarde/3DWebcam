@@ -69,7 +69,12 @@ MyCameraWindow::MyCameraWindow(CvCapture *rightCam, CvCapture *leftCam, QWidget 
 	// Calibration
 	QAction *actUseCali = menuOpt->addAction("&Use the calibration");
 	actUseCali->setCheckable(true);
-	//actUseCali->setChecked(true);
+	if(Q == NULL || mx1 == NULL || my1 == NULL || mx2 == NULL || my2 == NULL) {
+		actUseCali->setEnabled(false);
+	}
+	else {
+		//actUseCali->setChecked(true);
+	}
 	menuOpt->addSeparator();
 	// RGB format
 	QActionGroup *FormatGroup = new QActionGroup(this);

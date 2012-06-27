@@ -260,6 +260,11 @@ void StereoCalib(const char* imageList, int nx, int ny, int useUncalibrated, flo
 			cvInitUndistortRectifyMap(&_M1,&_D1,&_R1,&_P1,mx1,my1);
 			cvInitUndistortRectifyMap(&_M2,&_D2,&_R2,&_P2,mx2,my2);
 
+			//Check if the directory exists
+			if(!QDir("matrices").exists()) {
+				QDir().mkdir("matrices");
+			}
+
 			//Save parameters
 			cvSave("matrices/M1.xml",&_M1);
 			cvSave("matrices/D1.xml",&_D1);

@@ -1,0 +1,36 @@
+===========
+3D Webcam
+===========
+
+This software is a 3D video communication application.
+As other softwares as Skype, it allows to communicate with other people threw internet, but there you can see in 3D.
+Project page and repository: https://github.com/Moutarde/3DWebcam
+
+ author: Nicolas Kniebihler
+ Copyright © 2012
+
+
+----------
+Details
+----------
+
+This program uses the following libraries :
+	- OpenCV 2.2
+	- Qt 4.8.1
+	- PThread
+
+
+--------------------
+Visual Studio 2010
+--------------------
+
+You have to install these libraries in the 3DWebcam folder in order to compilate the Visual Studio solution.
+The libraries folders should be placed into the following folders :
+	- 3DWebcam/OpenCV2.2	->	bin, include and lib
+	- 3DWebcam/Qt/4.8.1		->	bin, include, lib, mkspecs and src
+	- 3DWebcam/PThread		->	include and lib
+
+Finally, copy the following .dll files in Release and Debug folders :
+	- pthreadVCE2.dll
+	- QtCore4.dll
+	- QtGui4.dll
