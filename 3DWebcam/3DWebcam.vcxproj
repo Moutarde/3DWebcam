@@ -77,6 +77,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
       <WarningLevel>Level3</WarningLevel>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(ProjectDir)Qt\4.8.1\lib\qtmain.lib;$(ProjectDir)OpenCV2.2\lib\opencv_core220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_highgui220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_video220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_ml220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_legacy220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_imgproc220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_flann220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_calib3d220d.lib;$(ProjectDir)Qt\4.8.1\lib\QtGui4.lib;$(ProjectDir)Qt\4.8.1\lib\QtCore4.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -117,6 +118,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
       <WarningLevel>Level3</WarningLevel>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(ProjectDir)Qt\4.8.1\lib\qtmain.lib;$(ProjectDir)OpenCV2.2\lib\opencv_core220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_highgui220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_video220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_ml220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_legacy220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_imgproc220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_flann220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_calib3d220d.lib;$(ProjectDir)Qt\4.8.1\lib\QtGui4.lib;$(ProjectDir)Qt\4.8.1\lib\QtCore4.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -148,9 +150,13 @@
     <ClCompile Include="Release\moc_CalibrationWindow.cpp" />
     <ClCompile Include="Release\moc_SelectFile.cpp" />
     <ClCompile Include="SelectFile.cpp" />
+    <ClCompile Include="SFML\Thread.cpp" />
     <ClCompile Include="StereoCalib.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SFML\Config.hpp" />
+    <ClInclude Include="SFML\NonCopyable.hpp" />
+    <ClInclude Include="SFML\Thread.hpp" />
     <ClInclude Include="StereoCalib.h" />
     <CustomBuild Include="SelectFile.h">
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Qt\4.8.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I"Qt\4.8.1\include\QtCore" -I"Qt\4.8.1\include\QtGui" -I"Qt\4.8.1\include" -I"." -I"Qt\4.8.1\include\ActiveQt" -I"release" -IQt\4.8.1\mkspecs\win32-msvc2010 -D_MSC_VER=1600 -DWIN32 SelectFile.h -o release\moc_SelectFile.cpp</Command>

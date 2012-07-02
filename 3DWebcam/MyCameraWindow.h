@@ -4,7 +4,7 @@
 #include <iostream>
 #include <cstdio>
 #include <highgui.h>
-#include <pthread.h>
+#include <omp.h>
 #include <QMainWindow>
 #include <QMenu>
 #include <QAction>
@@ -36,6 +36,7 @@ using namespace cv;
 static int timer;
 static int clk;
 
+static float tEx_timerEvent;
 static float tEx_grabFrame;
 static float tEx_removeDist;
 static float tEx_bgr2ycrcb;
@@ -45,6 +46,7 @@ static float tEx_disp3DImageSplited;
 static float tEx_disp3DImage;
 static float tEx_cvWriteFrame;
 
+static float nEx_timerEvent;
 static float nEx_grabFrame;
 static float nEx_removeDist;
 static float nEx_bgr2ycrcb;

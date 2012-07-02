@@ -1,6 +1,7 @@
 #include "MyCameraWindow.h"
 
 MyCameraWindow::MyCameraWindow(CvCapture *rightCam, CvCapture *leftCam, QWidget *parent) : QMainWindow(parent) {
+	tEx_timerEvent = 0;
 	tEx_grabFrame = 0;
 	tEx_removeDist = 0;
 	tEx_bgr2ycrcb = 0;
@@ -10,6 +11,7 @@ MyCameraWindow::MyCameraWindow(CvCapture *rightCam, CvCapture *leftCam, QWidget 
 	tEx_disp3DImage = 0;
 	tEx_cvWriteFrame = 0;
 	
+	nEx_timerEvent = 0;
 	nEx_grabFrame = 0;
 	nEx_removeDist = 0;
 	nEx_bgr2ycrcb = 0;
@@ -218,8 +220,8 @@ MyCameraWindow::MyCameraWindow(CvCapture *rightCam, CvCapture *leftCam, QWidget 
 	// Ready
 	statBar->showMessage("Ready");
 
-	// Start the timer (call to timerEvent() every 20ms)
-	startTimer(20);
+	// Start the timer (call to timerEvent() every 25ms)
+	startTimer(25);
 }
 
 MyCameraWindow::~MyCameraWindow(void) {
@@ -236,41 +238,73 @@ MyCameraWindow::~MyCameraWindow(void) {
 }
 
 void MyCameraWindow::timerEvent(QTimerEvent*) {
+	nEx_timerEvent++;
+    clock_t beginTimeGlobal = clock();
 	ostringstream strStream;
 	float t = 0;
 
-	// Require an image to the left camera
+	int threadid = 0;
+	int nthreads = 0;
+
 	nEx_grabFrame++;
     clock_t beginTime = clock();
+
+	IplImage *rightTmp;
+	IplImage *leftTmp;
+
+	#pragma omp parallel private(threadid)
+	{
+		#pragma omp master
+		{
+			nthreads=omp_get_num_threads();
+			strStream<<endl<<nthreads<<" thread(s) available for computation"<<endl;
+		}
+
+		#pragma omp barrier
+
+		threadid=omp_get_thread_num();
+		#pragma omp critical
+		{
+			strStream<<"Thread "<<threadid<<" is ready for computation"<<endl;
+		}
+	}
+	
 	cvGrabFrame(leftCamera);
-    clock_t endTime = clock();
-	t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
-	tEx_grabFrame = ((nEx_grabFrame-1)/nEx_grabFrame) * tEx_grabFrame + (1/nEx_grabFrame) * t;
-
-	IplImage *leftTmp = cvCloneImage(cvRetrieveFrame(leftCamera));
-
-	// Require an image to the right camera
-	nEx_grabFrame++;
-    beginTime = clock();
 	cvGrabFrame(rightCamera);
-    endTime = clock();
+	leftTmp = cvCloneImage(cvRetrieveFrame(leftCamera));
+	rightTmp = cvCloneImage(cvRetrieveFrame(rightCamera));
+
+	clock_t endTime = clock();
 	t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
 	tEx_grabFrame = ((nEx_grabFrame-1)/nEx_grabFrame) * tEx_grabFrame + (1/nEx_grabFrame) * t;
-
-	IplImage *rightTmp = cvCloneImage(cvRetrieveFrame(rightCamera));
 
 	// remove distorsions
 	if (useCalibration) {
-		leftTmp = removeDist(leftTmp, mx1, my1);
-		rightTmp = removeDist(rightTmp, mx2, my2);
+		#pragma omp parallel sections
+		{
+			{ leftTmp = removeDist(leftTmp, mx1, my1); }
+			#pragma omp section
+			{ rightTmp = removeDist(rightTmp, mx2, my2); }
+		}
 	}
 	
 	switch (mode) {
 	case NORMAL:
 		if (convertYCbCr) {
 			// Convert frame into YCbCr format
-			leftTmp = bgr2ycrcb(leftTmp);
-			rightTmp = bgr2ycrcb(rightTmp);
+			nEx_bgr2ycrcb++;
+			beginTime = clock();
+
+			#pragma omp parallel sections
+			{
+				{ leftTmp = bgr2ycrcb(leftTmp); }
+				#pragma omp section
+				{ rightTmp = bgr2ycrcb(rightTmp); }
+			}
+
+			clock_t endTime = clock();
+			float t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
+			tEx_bgr2ycrcb = ((nEx_bgr2ycrcb-1)/nEx_bgr2ycrcb) * tEx_bgr2ycrcb + (1/nEx_bgr2ycrcb) * t;
 			
 			switch (modeYUV) {
 			case YUV:
@@ -278,8 +312,12 @@ void MyCameraWindow::timerEvent(QTimerEvent*) {
 			case Y_ONLY:
 			case U_ONLY:
 			case V_ONLY:
-				leftTmp = extractLayer(leftTmp, modeYUV);
-				rightTmp = extractLayer(rightTmp, modeYUV);
+				#pragma omp parallel sections
+				{
+					{ leftTmp = extractLayer(leftTmp, modeYUV); }
+					#pragma omp section
+					{ rightTmp = extractLayer(rightTmp, modeYUV); }
+				}
 				break;
 			}
 		}
@@ -290,8 +328,12 @@ void MyCameraWindow::timerEvent(QTimerEvent*) {
 			case R_ONLY:
 			case G_ONLY:
 			case B_ONLY:
-				leftTmp = extractLayer(leftTmp, modeRGB);
-				rightTmp = extractLayer(rightTmp, modeRGB);
+				#pragma omp parallel sections
+				{
+					{ leftTmp = extractLayer(leftTmp, modeRGB); }
+					#pragma omp section
+					{ rightTmp = extractLayer(rightTmp, modeRGB); }
+				}
 				break;
 			}
 		}
@@ -325,31 +367,32 @@ void MyCameraWindow::timerEvent(QTimerEvent*) {
 		else {
 			timer++;
 		}
-
-		// Left
+		
 		nEx_cvWriteFrame++;
 		beginTime = clock();
-		cvWriteFrame(leftWriter, leftTmp);
-		endTime = clock();
-		t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
-		tEx_cvWriteFrame = ((nEx_cvWriteFrame-1)/nEx_cvWriteFrame) * tEx_cvWriteFrame + (1/nEx_cvWriteFrame) * t;
+
+		#pragma omp parallel sections
+		{
+			{ cvWriteFrame(leftWriter, leftTmp); }
+			#pragma omp section
+			{ cvWriteFrame(rightWriter, rightTmp); }
+		}
 
 		leftFramesNb++;
+		rightFramesNb++;
 
-		// Right
-		nEx_cvWriteFrame++;
-		beginTime = clock();
-		cvWriteFrame(rightWriter, rightTmp);
 		endTime = clock();
 		t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
 		tEx_cvWriteFrame = ((nEx_cvWriteFrame-1)/nEx_cvWriteFrame) * tEx_cvWriteFrame + (1/nEx_cvWriteFrame) * t;
-
-		rightFramesNb++;
 	}
 
 	// Free resources
 	cvReleaseImage(&leftTmp);
 	cvReleaseImage(&rightTmp);
+
+    clock_t endTimeGlobal = clock();
+	t = (float)(endTimeGlobal - beginTimeGlobal) / (CLOCKS_PER_SEC/1000);
+	tEx_timerEvent = ((nEx_timerEvent-1)/nEx_timerEvent) * tEx_timerEvent + (1/nEx_timerEvent) * t;
 
 	strStream << "grabFrame:\t\t" << tEx_grabFrame << " ms" << endl;
 	strStream << "removeDist:\t\t" << tEx_removeDist << " ms" << endl;
@@ -359,6 +402,8 @@ void MyCameraWindow::timerEvent(QTimerEvent*) {
 	strStream << "disp3DImageSplited:\t" << tEx_disp3DImageSplited << " ms" << endl;
 	strStream << "disp3DImage:\t\t" << tEx_disp3DImage << " ms" << endl;
 	strStream << "cvWriteFrame:\t\t" << tEx_cvWriteFrame << " ms" << endl;
+	strStream << "timerEvent:\t\t" << tEx_timerEvent << " ms" << endl;
+
 	output->setText(*(new QString(strStream.str().c_str())));
 }
 
@@ -421,6 +466,22 @@ void MyCameraWindow::dispFrames(IplImage *left, IplImage *right) {
 	// Display frames in the widgets
 	leftCVWidget->putImage(left);
 	rightCVWidget->putImage(right);
+
+	/*int threadid = 0;
+
+	#pragma omp parallel private(threadid)
+	{
+		threadid = omp_get_thread_num();
+
+		if(threadid == 0) {
+			// Require an image to the left camera
+			leftCVWidget->putImage(left);
+		}
+		else if(threadid == 1) {
+			// Require an image to the right camera
+			rightCVWidget->putImage(right);
+		}
+	}*/
 
 	clock_t endTime = clock();
 	float t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
@@ -562,18 +623,18 @@ IplImage* removeDist(IplImage* img, CvMat* mx, CvMat* my) {
 }
 
 IplImage* bgr2ycrcb(IplImage* img) {
-	nEx_bgr2ycrcb++;
-    clock_t beginTime = clock();
+	//nEx_bgr2ycrcb++;
+    //clock_t beginTime = clock();
 
 	CvSize imageSize = cvGetSize(img);
 
 	IplImage* tmp = cvCreateImage(imageSize, IPL_DEPTH_8U, 3);
 	cvCvtColor(img, tmp, CV_BGR2YCrCb);
 
-	clock_t endTime = clock();
+	/*clock_t endTime = clock();
 	float t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
 	tEx_bgr2ycrcb = ((nEx_bgr2ycrcb-1)/nEx_bgr2ycrcb) * tEx_bgr2ycrcb + (1/nEx_bgr2ycrcb) * t;
-
+	*/
 	return tmp;
 }
 

@@ -51,6 +51,9 @@
     <ClCompile Include="StereoCalib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SFML\Thread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="MyCameraWindow.h">
@@ -76,6 +79,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StereoCalib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SFML\Config.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SFML\NonCopyable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SFML\Thread.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
