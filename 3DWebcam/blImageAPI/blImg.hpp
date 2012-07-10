@@ -204,7 +204,7 @@ inline blImg<blType>& blImg<blType>::operator=(const blImg<blType>& Image)
 {
     // Clone the image and store
     // it inside the shared pointer
-    this->m_Image = shared_ptr<IplImage>(cvCloneImage(Image),ReleaseImage());
+    this->m_Image = boost::shared_ptr<IplImage>(cvCloneImage(Image),ReleaseImage());
 
     return (*this);
 }

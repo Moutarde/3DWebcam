@@ -1,6 +1,10 @@
 #ifndef SELECTFILE_H
 #define SELECTFILE_H
 
+#ifdef _WIN32
+#define _CRT_SECURE_NO_DEPRECATE
+#endif
+
 #include <QFileDialog>
 #include <QLineEdit>
 #include <QVBoxLayout>

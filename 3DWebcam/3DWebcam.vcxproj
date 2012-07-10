@@ -52,10 +52,10 @@
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <ExecutablePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)OpenCV2.2\bin;$(ExecutablePath)</ExecutablePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)PThread\include;$(ProjectDir)OpenCV2.2\include\opencv;$(ProjectDir)OpenCV2.2\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IncludePath);$(ProjectDir)boost;$(ProjectDir)PThread\include;$(ProjectDir)OpenCV2.2\include\opencv;$(ProjectDir)OpenCV2.2\include</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)PThread\lib;$(ProjectDir)OpenCV2.2\lib;$(LibraryPath)</LibraryPath>
     <ExecutablePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)OpenCV2.2\bin;$(ExecutablePath)</ExecutablePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)PThread\include;$(ProjectDir)OpenCV2.2\include\opencv;$(ProjectDir)OpenCV2.2\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IncludePath);$(ProjectDir)boost;$(ProjectDir)PThread\include;$(ProjectDir)OpenCV2.2\include\opencv;$(ProjectDir)OpenCV2.2\include</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)PThread\lib;$(ProjectDir)OpenCV2.2\lib;$(LibraryPath)</LibraryPath>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
   </PropertyGroup>
@@ -154,6 +154,29 @@
     <ClCompile Include="StereoCalib.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="blImageAPI\blCaptureDevice.hpp" />
+    <ClInclude Include="blImageAPI\blCleanResources.hpp" />
+    <ClInclude Include="blImageAPI\blColor3.hpp" />
+    <ClInclude Include="blImageAPI\blColor4.hpp" />
+    <ClInclude Include="blImageAPI\blEncodeAndDecode.hpp" />
+    <ClInclude Include="blImageAPI\blHSV.hpp" />
+    <ClInclude Include="blImageAPI\blImage.hpp" />
+    <ClInclude Include="blImageAPI\blImageAPI.hpp" />
+    <ClInclude Include="blImageAPI\blImageBlending.hpp" />
+    <ClInclude Include="blImageAPI\blImageChannels.hpp" />
+    <ClInclude Include="blImageAPI\blImageNegative.hpp" />
+    <ClInclude Include="blImageAPI\blImageOperators.hpp" />
+    <ClInclude Include="blImageAPI\blImagePencilSketch.hpp" />
+    <ClInclude Include="blImageAPI\blImagePlot.hpp" />
+    <ClInclude Include="blImageAPI\blImageSerialization.hpp" />
+    <ClInclude Include="blImageAPI\blImageShifting.hpp" />
+    <ClInclude Include="blImageAPI\blImageTiling.hpp" />
+    <ClInclude Include="blImageAPI\blImg.hpp" />
+    <ClInclude Include="blImageAPI\blMemStorage.hpp" />
+    <ClInclude Include="blImageAPI\blSignalProcessing.hpp" />
+    <ClInclude Include="blImageAPI\blTexture.hpp" />
+    <ClInclude Include="blImageAPI\blVideoThread.hpp" />
+    <ClInclude Include="blImageAPI\blVideoThread2.hpp" />
     <ClInclude Include="SFML\Config.hpp" />
     <ClInclude Include="SFML\NonCopyable.hpp" />
     <ClInclude Include="SFML\Thread.hpp" />

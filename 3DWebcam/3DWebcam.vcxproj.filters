@@ -25,6 +25,15 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Header Files\SFML">
+      <UniqueIdentifier>{dc8a0523-7c33-498d-a8b3-828d1e5733d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SFML">
+      <UniqueIdentifier>{833e2555-d02d-4ba5-b03c-e9ede64808e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\blImageAPI">
+      <UniqueIdentifier>{76ac01f0-625e-4c8f-99a1-6713cc2be8bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyCameraWindow.cpp">
@@ -52,7 +61,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SFML\Thread.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\SFML</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -81,14 +90,83 @@
     <ClInclude Include="StereoCalib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SFML\Config.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="SFML\Thread.hpp">
+      <Filter>Header Files\SFML</Filter>
     </ClInclude>
     <ClInclude Include="SFML\NonCopyable.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\SFML</Filter>
     </ClInclude>
-    <ClInclude Include="SFML\Thread.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="SFML\Config.hpp">
+      <Filter>Header Files\SFML</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blCaptureDevice.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blVideoThread2.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blCleanResources.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blColor3.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blColor4.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blEncodeAndDecode.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blHSV.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blImage.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blImageAPI.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blImageBlending.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blImageChannels.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blImageNegative.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blImageOperators.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blImagePencilSketch.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blImagePlot.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blImageSerialization.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blImageShifting.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blImageTiling.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blImg.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blMemStorage.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blSignalProcessing.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blTexture.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="blImageAPI\blVideoThread.hpp">
+      <Filter>Header Files\blImageAPI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

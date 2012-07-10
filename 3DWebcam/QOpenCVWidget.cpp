@@ -33,6 +33,11 @@ void QOpenCVWidget::putImage(IplImage *cvimage) {
 	imagelabel->setPixmap(QPixmap::fromImage(tmpImage));
 }
 
+void QOpenCVWidget::setImage(QImage img) {
+	// Display it in the label
+	imagelabel->setPixmap(QPixmap::fromImage(img));
+}
+
 // Convert IplImage to QImage
 QImage QOpenCVWidget::IplImage2QImage(const IplImage *iplImage) {
 	int height = iplImage->height;
@@ -69,3 +74,4 @@ IplImage* QOpenCVWidget::qImage2IplImage(const QImage& qImage)
 	}
 	return img;
 }
+

@@ -1,6 +1,6 @@
 #include "CalibrationWindow.h"
 
-CalibrationWindow::CalibrationWindow(CvCapture *rightCam, CvCapture *leftCam, QWidget *parent) : QWidget(parent) {
+CalibrationWindow::CalibrationWindow(blVideoThread2 *rightCam, blVideoThread2 *leftCam, QWidget *parent) : QWidget(parent) {
 	rightCamera = rightCam;
 	leftCamera = leftCam;
 	num = 1;
@@ -50,28 +50,35 @@ CalibrationWindow::CalibrationWindow(CvCapture *rightCam, CvCapture *leftCam, QW
 	startTimer(20);
 }
 
-CalibrationWindow::~CalibrationWindow(void) {
-	cvReleaseCapture(&rightCamera);
-	cvReleaseCapture(&leftCamera);
-}
+CalibrationWindow::~CalibrationWindow(void) {}
 
 void CalibrationWindow::timerEvent(QTimerEvent*) {
-	// Require an image to the right camera
-	cvGrabFrame(rightCamera);
-	IplImage *rightTmp = cvRetrieveFrame(rightCamera);
-	// and display it in the widget
+	IplImage* rightTmp;
+	IplImage* leftTmp;
+
+	#pragma omp parallel sections
+	{
+		// Require an image to the right camera
+		{ rightTmp = cvCloneImage(rightCamera->GetFrame()); }
+		#pragma omp section
+		// Require an image to the left camera
+		{ leftTmp = cvCloneImage(leftCamera->GetFrame()); }
+	}
+
+	// Display the right frame in the widget
 	rightCVWidget->putImage(rightTmp);
 
-	// Require an image to the left camera
-	cvGrabFrame(leftCamera);
-	IplImage *leftTmp = cvRetrieveFrame(leftCamera);
-	// and display it in the widget
+	// Display the left frame in the widget
 	leftCVWidget->putImage(leftTmp);
 
 	if(saveReq) {
 		savePicture(rightTmp, leftTmp);
 		saveReq = false;
 	}
+	
+	// Free resources
+	cvReleaseImage(&leftTmp);
+	cvReleaseImage(&rightTmp);
 }
 
 void CalibrationWindow::savePicture(IplImage *rightTmp, IplImage *leftTmp) {

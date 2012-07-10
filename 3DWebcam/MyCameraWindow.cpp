@@ -1,6 +1,6 @@
 #include "MyCameraWindow.h"
 
-MyCameraWindow::MyCameraWindow(CvCapture *rightCam, CvCapture *leftCam, QWidget *parent) : QMainWindow(parent) {
+MyCameraWindow::MyCameraWindow(blVideoThread2 *rightCam, blVideoThread2 *leftCam, QWidget *parent) : QMainWindow(parent) {
 	tEx_timerEvent = 0;
 	tEx_grabFrame = 0;
 	tEx_removeDist = 0;
@@ -29,8 +29,8 @@ MyCameraWindow::MyCameraWindow(CvCapture *rightCam, CvCapture *leftCam, QWidget 
 	useCalibration = false;
 	convertYCbCr = false;
 	mode = NORMAL;
-	modeRGB = RGB;
-	modeYUV = YUV;
+	modeRGB = RGB_MODE;
+	modeYUV = YUV_MODE;
 
 	// Cameras and recorders init
 	rightCamera = rightCam;
@@ -225,8 +225,8 @@ MyCameraWindow::MyCameraWindow(CvCapture *rightCam, CvCapture *leftCam, QWidget 
 }
 
 MyCameraWindow::~MyCameraWindow(void) {
-	cvReleaseCapture(&rightCamera);
-	cvReleaseCapture(&leftCamera);
+	//cvReleaseCapture(&rightCamera);
+	//cvReleaseCapture(&leftCamera);
 	cvReleaseMat(&Q);
 	cvReleaseMat(&mx1);
 	cvReleaseMat(&my1);
@@ -243,36 +243,20 @@ void MyCameraWindow::timerEvent(QTimerEvent*) {
 	ostringstream strStream;
 	float t = 0;
 
-	int threadid = 0;
-	int nthreads = 0;
-
 	nEx_grabFrame++;
     clock_t beginTime = clock();
 
-	IplImage *rightTmp;
-	IplImage *leftTmp;
+	IplImage* rightTmp;
+	IplImage* leftTmp;
 
-	#pragma omp parallel private(threadid)
+	#pragma omp parallel sections
 	{
-		#pragma omp master
-		{
-			nthreads=omp_get_num_threads();
-			strStream<<endl<<nthreads<<" thread(s) available for computation"<<endl;
-		}
-
-		#pragma omp barrier
-
-		threadid=omp_get_thread_num();
-		#pragma omp critical
-		{
-			strStream<<"Thread "<<threadid<<" is ready for computation"<<endl;
-		}
+		// Require an image to the right camera
+		{ rightTmp = cvCloneImage(rightCamera->GetFrame()); }
+		#pragma omp section
+		// Require an image to the left camera
+		{ leftTmp = cvCloneImage(leftCamera->GetFrame()); }
 	}
-	
-	cvGrabFrame(leftCamera);
-	cvGrabFrame(rightCamera);
-	leftTmp = cvCloneImage(cvRetrieveFrame(leftCamera));
-	rightTmp = cvCloneImage(cvRetrieveFrame(rightCamera));
 
 	clock_t endTime = clock();
 	t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
@@ -282,9 +266,9 @@ void MyCameraWindow::timerEvent(QTimerEvent*) {
 	if (useCalibration) {
 		#pragma omp parallel sections
 		{
-			{ leftTmp = removeDist(leftTmp, mx1, my1); }
+			{ removeDist(leftTmp, mx1, my1); }
 			#pragma omp section
-			{ rightTmp = removeDist(rightTmp, mx2, my2); }
+			{ removeDist(rightTmp, mx2, my2); }
 		}
 	}
 	
@@ -297,42 +281,42 @@ void MyCameraWindow::timerEvent(QTimerEvent*) {
 
 			#pragma omp parallel sections
 			{
-				{ leftTmp = bgr2ycrcb(leftTmp); }
+				{ bgr2ycrcb(leftTmp); }
 				#pragma omp section
-				{ rightTmp = bgr2ycrcb(rightTmp); }
+				{ bgr2ycrcb(rightTmp); }
 			}
 
-			clock_t endTime = clock();
+			endTime = clock();
 			float t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
 			tEx_bgr2ycrcb = ((nEx_bgr2ycrcb-1)/nEx_bgr2ycrcb) * tEx_bgr2ycrcb + (1/nEx_bgr2ycrcb) * t;
 			
 			switch (modeYUV) {
-			case YUV:
+			case YUV_MODE:
 				break;
 			case Y_ONLY:
 			case U_ONLY:
 			case V_ONLY:
 				#pragma omp parallel sections
 				{
-					{ leftTmp = extractLayer(leftTmp, modeYUV); }
+					{ extractLayer(leftTmp, modeYUV); }
 					#pragma omp section
-					{ rightTmp = extractLayer(rightTmp, modeYUV); }
+					{ extractLayer(rightTmp, modeYUV); }
 				}
 				break;
 			}
 		}
 		else {
 			switch (modeRGB) {
-			case RGB:
+			case RGB_MODE:
 				break;
 			case R_ONLY:
 			case G_ONLY:
 			case B_ONLY:
 				#pragma omp parallel sections
 				{
-					{ leftTmp = extractLayer(leftTmp, modeRGB); }
+					{ extractLayer(leftTmp, modeRGB); }
 					#pragma omp section
-					{ rightTmp = extractLayer(rightTmp, modeRGB); }
+					{ extractLayer(rightTmp, modeRGB); }
 				}
 				break;
 			}
@@ -415,10 +399,14 @@ void MyCameraWindow::startRecording(QString rightFile, QString leftFile) {
 	start->setEnabled(false);
 	stop->setEnabled(true);
 	menuOpt->setEnabled(false);
-	//rightWriter = cvCreateVideoWriter(rightFile.toStdString().c_str(), CV_FOURCC('P','I','M','1'), fps, cvSize(frameW,frameH), isColor);
-	//leftWriter = cvCreateVideoWriter(leftFile.toStdString().c_str(), CV_FOURCC('P','I','M','1'), fps, cvSize(frameW,frameH), isColor);
-	rightWriter = cvCreateVideoWriter(rightFile.toStdString().c_str(), CV_FOURCC('I','Y','U','V'), fps, cvSize(frameW,frameH), isColor);
-	leftWriter = cvCreateVideoWriter(leftFile.toStdString().c_str(), CV_FOURCC('I','Y','U','V'), fps, cvSize(frameW,frameH), isColor);
+	if (convertYCbCr) {
+		rightWriter = cvCreateVideoWriter(rightFile.toStdString().c_str(), CV_FOURCC('I','Y','U','V'), fps, cvSize(frameW,frameH), isColor);
+		leftWriter = cvCreateVideoWriter(leftFile.toStdString().c_str(), CV_FOURCC('I','Y','U','V'), fps, cvSize(frameW,frameH), isColor);
+	}
+	else {
+		rightWriter = cvCreateVideoWriter(rightFile.toStdString().c_str(), CV_FOURCC('P','I','M','1'), fps, cvSize(frameW,frameH), isColor);
+		leftWriter = cvCreateVideoWriter(leftFile.toStdString().c_str(), CV_FOURCC('P','I','M','1'), fps, cvSize(frameW,frameH), isColor);
+	}
 	statBar->showMessage("Recording...");
 	rightFramesNb = 0;
 	leftFramesNb = 0;
@@ -439,26 +427,6 @@ void MyCameraWindow::stopRecording() {
 	clk = 0;
 }
 
-void MyCameraWindow::useCali(bool b) {
-	useCalibration = b;
-}
-
-void MyCameraWindow::convertYUV(bool b) {
-	convertYCbCr = b;
-}
-
-void MyCameraWindow::setNormalMode() {
-	mode = NORMAL;
-}
-
-void MyCameraWindow::setSplitedMode() {
-	mode = SPLITED_3D;
-}
-
-void MyCameraWindow::setMergedMode() {
-	mode = MERGED_3D;
-}
-
 void MyCameraWindow::dispFrames(IplImage *left, IplImage *right) {
 	nEx_dispFrames++;
     clock_t beginTime = clock();
@@ -467,57 +435,9 @@ void MyCameraWindow::dispFrames(IplImage *left, IplImage *right) {
 	leftCVWidget->putImage(left);
 	rightCVWidget->putImage(right);
 
-	/*int threadid = 0;
-
-	#pragma omp parallel private(threadid)
-	{
-		threadid = omp_get_thread_num();
-
-		if(threadid == 0) {
-			// Require an image to the left camera
-			leftCVWidget->putImage(left);
-		}
-		else if(threadid == 1) {
-			// Require an image to the right camera
-			rightCVWidget->putImage(right);
-		}
-	}*/
-
 	clock_t endTime = clock();
 	float t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
 	tEx_dispFrames = ((nEx_dispFrames-1)/nEx_dispFrames) * tEx_dispFrames + (1/nEx_dispFrames) * t;
-}
-
-void MyCameraWindow::setRGBMode() {
-	modeRGB = RGB;
-}
-
-void MyCameraWindow::setROnlyMode() {
-	modeRGB = R_ONLY;
-}
-
-void MyCameraWindow::setGOnlyMode() {
-	modeRGB = G_ONLY;
-}
-
-void MyCameraWindow::setBOnlyMode() {
-	modeRGB = B_ONLY;
-}
-
-void MyCameraWindow::setYUVMode() {
-	modeYUV = YUV;
-}
-
-void MyCameraWindow::setYOnlyMode() {
-	modeYUV = Y_ONLY;
-}
-
-void MyCameraWindow::setUOnlyMode() {
-	modeYUV = U_ONLY;
-}
-
-void MyCameraWindow::setVOnlyMode() {
-	modeYUV = V_ONLY;
 }
 
 void MyCameraWindow::disp3DImageSplited(IplImage *left, IplImage *right) {
@@ -606,90 +526,133 @@ void MyCameraWindow::dispTime(int c) {
 	free(timeStr);
 }
 
-IplImage* removeDist(IplImage* img, CvMat* mx, CvMat* my) {
+void MyCameraWindow::removeDist(IplImage* img, const CvMat* mx, const CvMat* my) {
 	nEx_removeDist++;
     clock_t beginTime = clock();
 
-	CvSize imageSize = cvGetSize(img);
-	IplImage* tmp = cvCreateImage(imageSize, IPL_DEPTH_8U, 3);
-	tmp = cvCloneImage(img);
-	cvRemap(img, tmp, mx, my);
+	IplImage* tmp = cvCloneImage(img);
+	cvRemap(tmp, img, mx, my);
+	cvReleaseImage(&tmp);
 
 	clock_t endTime = clock();
 	float t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
 	tEx_removeDist = ((nEx_removeDist-1)/nEx_removeDist) * tEx_removeDist + (1/nEx_removeDist) * t;
-
-	return tmp;
 }
 
-IplImage* bgr2ycrcb(IplImage* img) {
-	//nEx_bgr2ycrcb++;
-    //clock_t beginTime = clock();
+void MyCameraWindow::bgr2ycrcb(IplImage* img) {
+	/*nEx_bgr2ycrcb++;
+    clock_t beginTime = clock();*/
 
-	CvSize imageSize = cvGetSize(img);
-
-	IplImage* tmp = cvCreateImage(imageSize, IPL_DEPTH_8U, 3);
-	cvCvtColor(img, tmp, CV_BGR2YCrCb);
+	IplImage* tmp = cvCloneImage(img);
+	cvCvtColor(tmp, img, CV_BGR2YCrCb);
+	cvReleaseImage(&tmp);
 
 	/*clock_t endTime = clock();
 	float t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
 	tEx_bgr2ycrcb = ((nEx_bgr2ycrcb-1)/nEx_bgr2ycrcb) * tEx_bgr2ycrcb + (1/nEx_bgr2ycrcb) * t;
 	*/
-	return tmp;
 }
 
-IplImage* ycrcb2bgr(IplImage* img) {
-	CvSize imageSize = cvGetSize(img);
-
-	IplImage* tmp = cvCreateImage(imageSize, IPL_DEPTH_8U, 3);
-	cvCvtColor(img, tmp, CV_YCrCb2BGR);
-
-	return tmp;
+void MyCameraWindow::ycrcb2bgr(IplImage* img) {
+	IplImage* tmp = cvCloneImage(img);
+	cvCvtColor(tmp, img, CV_YCrCb2BGR);
+	cvReleaseImage(&tmp);
 }
 
-IplImage* extractLayer(IplImage* img, int mode) {
+void MyCameraWindow::extractLayer(IplImage* img, int mode) {
 	nEx_extractLayer++;
     clock_t beginTime = clock();
 
 	CvSize imageSize = cvGetSize(img);
-	IplImage* tmp = cvCreateImage(imageSize, IPL_DEPTH_8U, 3);
+	IplImage* tmp = cvCloneImage(img);
 	IplImage* extractedLayer = cvCreateImage(imageSize, IPL_DEPTH_8U, 1);
 	IplImage* tmp_layer = cvCreateImage(imageSize, IPL_DEPTH_8U, 1);
 	cvSetZero(tmp_layer);
 
 	switch(mode) {
 	case Y_ONLY:
-		cvSplit(img, extractedLayer, NULL, NULL, NULL);
-		cvMerge(extractedLayer, extractedLayer, extractedLayer, NULL, tmp);
+		cvSplit(tmp, extractedLayer, NULL, NULL, NULL);
+		cvMerge(extractedLayer, extractedLayer, extractedLayer, NULL, img);
 		break;
 	case U_ONLY:
-		cvSplit(img, NULL, extractedLayer, NULL, NULL);
-		cvMerge(extractedLayer, extractedLayer, extractedLayer, NULL, tmp);
+		cvSplit(tmp, NULL, extractedLayer, NULL, NULL);
+		cvMerge(extractedLayer, extractedLayer, extractedLayer, NULL, img);
 		break;
 	case V_ONLY:
-		cvSplit(img, NULL, NULL, extractedLayer, NULL);
-		cvMerge(extractedLayer, extractedLayer, extractedLayer, NULL, tmp);
+		cvSplit(tmp, NULL, NULL, extractedLayer, NULL);
+		cvMerge(extractedLayer, extractedLayer, extractedLayer, NULL, img);
 		break;
 	case B_ONLY:
-		cvSplit(img, extractedLayer, NULL, NULL, NULL);
-		cvMerge(extractedLayer, tmp_layer, tmp_layer, NULL, tmp);
+		cvSplit(tmp, extractedLayer, NULL, NULL, NULL);
+		cvMerge(extractedLayer, tmp_layer, tmp_layer, NULL, img);
 		break;
 	case G_ONLY:
-		cvSplit(img, NULL, extractedLayer, NULL, NULL);
-		cvMerge(tmp_layer, extractedLayer, tmp_layer, NULL, tmp);
+		cvSplit(tmp, NULL, extractedLayer, NULL, NULL);
+		cvMerge(tmp_layer, extractedLayer, tmp_layer, NULL, img);
 		break;
 	case R_ONLY:
-		cvSplit(img, NULL, NULL, extractedLayer, NULL);
-		cvMerge(tmp_layer, tmp_layer, extractedLayer, NULL, tmp);
+		cvSplit(tmp, NULL, NULL, extractedLayer, NULL);
+		cvMerge(tmp_layer, tmp_layer, extractedLayer, NULL, img);
 		break;
 	}
-
+	
+	cvReleaseImage(&tmp);
 	cvReleaseImage(&extractedLayer);
 	cvReleaseImage(&tmp_layer);
 
 	clock_t endTime = clock();
 	float t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
 	tEx_extractLayer = ((nEx_extractLayer-1)/nEx_extractLayer) * tEx_extractLayer + (1/nEx_extractLayer) * t;
+}
 
-	return tmp;
+void MyCameraWindow::useCali(bool b) {
+	useCalibration = b;
+}
+
+void MyCameraWindow::convertYUV(bool b) {
+	convertYCbCr = b;
+}
+
+void MyCameraWindow::setNormalMode() {
+	mode = NORMAL;
+}
+
+void MyCameraWindow::setSplitedMode() {
+	mode = SPLITED_3D;
+}
+
+void MyCameraWindow::setMergedMode() {
+	mode = MERGED_3D;
+}
+
+void MyCameraWindow::setRGBMode() {
+	modeRGB = RGB_MODE;
+}
+
+void MyCameraWindow::setROnlyMode() {
+	modeRGB = R_ONLY;
+}
+
+void MyCameraWindow::setGOnlyMode() {
+	modeRGB = G_ONLY;
+}
+
+void MyCameraWindow::setBOnlyMode() {
+	modeRGB = B_ONLY;
+}
+
+void MyCameraWindow::setYUVMode() {
+	modeYUV = YUV_MODE;
+}
+
+void MyCameraWindow::setYOnlyMode() {
+	modeYUV = Y_ONLY;
+}
+
+void MyCameraWindow::setUOnlyMode() {
+	modeYUV = U_ONLY;
+}
+
+void MyCameraWindow::setVOnlyMode() {
+	modeYUV = V_ONLY;
 }

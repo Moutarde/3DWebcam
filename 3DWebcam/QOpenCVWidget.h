@@ -1,6 +1,10 @@
 #ifndef QOPENCVWIDGET_H
 #define QOPENCVWIDGET_H
 
+#ifdef _WIN32
+#define _CRT_SECURE_NO_DEPRECATE
+#endif
+
 #include <cv.h>
 #include <QPixmap>
 #include <QLabel>
@@ -28,6 +32,7 @@ class QOpenCVWidget : public QWidget {
 		IplImage* qImage2IplImage(const QImage& qImage);
 
 		void putImage(IplImage *);
-}; 
+		void setImage(QImage img);
+};
 
 #endif // QOPENCVWIDGET_H

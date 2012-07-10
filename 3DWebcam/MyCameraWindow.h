@@ -1,6 +1,12 @@
 #ifndef MYCAMERAWINDOW_H
 #define MYCAMERAWINDOW_H
 
+#define USE_BL_VIDEOTHREAD
+
+#ifdef _WIN32
+#define _CRT_SECURE_NO_DEPRECATE
+#endif
+
 #include <iostream>
 #include <cstdio>
 #include <highgui.h>
@@ -15,21 +21,23 @@
 
 #include "QOpenCVWidget.h"
 #include "SelectFile.h"
+#include "blImageAPI/blImageAPI.hpp"
 
 #define NORMAL 0
 #define SPLITED_3D 1
 #define MERGED_3D 2
 
-#define YUV 0
+#define YUV_MODE 0
 #define Y_ONLY 1
 #define U_ONLY 2
 #define V_ONLY 3
 
-#define RGB 4
+#define RGB_MODE 4
 #define R_ONLY 5
 #define G_ONLY 6
 #define B_ONLY 7
 
+using namespace blImageAPI;
 using namespace std;
 using namespace cv;
 
@@ -74,8 +82,8 @@ class MyCameraWindow : public QMainWindow
 		QPushButton *stop;
 		QPushButton *exit;
 		// This allows to deal with the camera's stream
-		CvCapture *rightCamera;
-		CvCapture *leftCamera;
+		blVideoThread2 *rightCamera;
+		blVideoThread2 *leftCamera;
 		// This allows to record the videos
 		CvVideoWriter *rightWriter;
 		CvVideoWriter *leftWriter;
@@ -106,21 +114,21 @@ class MyCameraWindow : public QMainWindow
 		void setYOnlyMode();
 		void setUOnlyMode();
 		void setVOnlyMode();
-
+		
 	public:
-		MyCameraWindow(CvCapture *rightCam, CvCapture *leftCam, QWidget *parent=0);
+		MyCameraWindow(blVideoThread2 *rightCam, blVideoThread2 *leftCam, QWidget *parent=0);
 		~MyCameraWindow(void);
 		void dispFrames(IplImage *left, IplImage *right);
 		void disp3DImageSplited(IplImage *left, IplImage *right);
 		void disp3DImage(IplImage *left, IplImage *right);
 		void dispTime(int c);
+		void bgr2ycrcb(IplImage* img);
+		void ycrcb2bgr(IplImage* img);
+		void removeDist(IplImage* img, const CvMat* mx, const CvMat* my);
+		void extractLayer(IplImage* img, int mode);
 	protected:
 		// this method displays the image from the camera
 		void timerEvent(QTimerEvent*);
 };
-
-IplImage* removeDist(IplImage* img, CvMat* mx, CvMat* my);
-IplImage* bgr2ycrcb(IplImage* img);
-IplImage* extractLayer(IplImage* img, int mode);
 
 #endif // MYCAMERAWINDOW_H

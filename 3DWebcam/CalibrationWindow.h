@@ -1,6 +1,10 @@
 #ifndef CALIBRATIONWINDOW_H
 #define CALIBRATIONWINDOW_H
 
+#ifdef _WIN32
+#define _CRT_SECURE_NO_DEPRECATE
+#endif
+
 #include <QApplication>
 #include <QVBoxLayout>
 #include <QPushButton>
@@ -18,7 +22,7 @@ class CalibrationWindow : public QWidget {
 	Q_OBJECT
 
 	public:
-		CalibrationWindow(CvCapture *rightCam, CvCapture *leftCam, QWidget *parent=0);
+		CalibrationWindow(blVideoThread2 *rightCam, blVideoThread2 *leftCam, QWidget *parent=0);
 		~CalibrationWindow(void);
 		void savePicture(IplImage *rightTmp, IplImage *leftTmp);
 
@@ -41,8 +45,8 @@ class CalibrationWindow : public QWidget {
 		QOpenCVWidget *rightCVWidget;
 		QOpenCVWidget *leftCVWidget;
 		// This allows to deal with the camera's stream
-		CvCapture *rightCamera;
-		CvCapture *leftCamera;
+		blVideoThread2 *rightCamera;
+		blVideoThread2 *leftCamera;
 		// Buttons
 		QPushButton *save;
 		QPushButton *finish;
