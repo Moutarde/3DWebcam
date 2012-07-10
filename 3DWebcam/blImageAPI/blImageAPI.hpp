@@ -1,3 +1,8 @@
+/**
+ * Modified by Nicolas Kniebihler
+ * Adding of some includes.
+ */
+
 #ifndef BL_IMAGEAPI_HPP
 #define BL_IMAGEAPI_HPP
 

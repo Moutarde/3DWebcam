@@ -15,11 +15,12 @@ Details
 ----------
 
 This program uses the following libraries :
-	- OpenCV 2.2
-	- Qt 4.8.1
-	- blImageAPI
+	- OpenCV 2.2	-> http://opencv.org/
+	- Qt 4.8.1		-> http://qt.nokia.com/
+	- blImageAPI	-> http://www.barbato.us/
+	- SFML			-> http://www.sfml-dev.org/
+	- Boost			-> http://www.boost.org/
 	- PThread
-	- Boost
 
 
 --------------------
@@ -30,13 +31,16 @@ You have to install the above libraries in the 3DWebcam folder in order to compi
 The libraries folders should be placed into the following folders :
 	- 3DWebcam/OpenCV2.2	->	bin, include and lib
 	- 3DWebcam/Qt/4.8.1		->	bin, include, lib, mkspecs and src
-	- 3DWebcam/PThread		->	include and lib
 	- 3DWebcam/boost		->	only the smart_ptr "header-only" library and the other boost headers it needs to work
+	- 3DWebcam/PThread		->	include and lib
+Or you can install the libraries where you want and redo the linking yourself...
 
-The blImageAPI library is included in the git repository,
-as it is very light and has been slightly modified to work with this project.
+The blImageAPI and SFML libraries are included in the git repository.
+In fact, blImageAPI is very light and has been slightly modified to work with this project,
+and we only need a small part of SFML (the Thread library).
 
 Finally, copy the following .dll files in Release and Debug folders :
 	- pthreadVCE2.dll
 	- QtCore4.dll
 	- QtGui4.dll
+Or you can copy those files in your system folder...

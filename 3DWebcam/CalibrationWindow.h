@@ -22,7 +22,7 @@ class CalibrationWindow : public QWidget {
 	Q_OBJECT
 
 	public:
-		CalibrationWindow(blVideoThread2 *rightCam, blVideoThread2 *leftCam, QWidget *parent=0);
+		CalibrationWindow(blVideoThread2 *rightCam, blVideoThread2 *leftCam, QWidget *parent = 0);
 		~CalibrationWindow(void);
 		void savePicture(IplImage *rightTmp, IplImage *leftTmp);
 

@@ -21,9 +21,11 @@ class SelectFile : public QWidget {
 	private:
 		QLineEdit *rightLineEdit;
 		QLineEdit *leftLineEdit;
+		int nbCam;
 
 	signals:
 		void fileSelected(QString rightFile, QString leftFile);
+		void fileSelected(QString file);
 		
 	public slots:
 		void rightSaveAs();
@@ -31,7 +33,7 @@ class SelectFile : public QWidget {
 		void validate();
 
 	public:
-		SelectFile(QWidget *parent=0);
+		SelectFile(int nbCam = 2, QWidget *parent = 0);
 		~SelectFile(void);
 };
 

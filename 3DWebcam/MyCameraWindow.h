@@ -100,6 +100,7 @@ class MyCameraWindow : public QMainWindow
 
 	public slots:
 		void startRecording(QString rightFile, QString leftFile);
+		void startRecording(QString file);
 		void stopRecording();
 		void useCali(bool b);
 		void convertYUV(bool b);
@@ -116,9 +117,11 @@ class MyCameraWindow : public QMainWindow
 		void setVOnlyMode();
 		
 	public:
-		MyCameraWindow(blVideoThread2 *rightCam, blVideoThread2 *leftCam, QWidget *parent=0);
+		MyCameraWindow(blVideoThread2 *rightCam, blVideoThread2 *leftCam, QWidget *parent = 0);
+		MyCameraWindow(blVideoThread2 *cam, QWidget *parent = 0);
 		~MyCameraWindow(void);
 		void dispFrames(IplImage *left, IplImage *right);
+		void dispFrames(IplImage *img);
 		void disp3DImageSplited(IplImage *left, IplImage *right);
 		void disp3DImage(IplImage *left, IplImage *right);
 		void dispTime(int c);
