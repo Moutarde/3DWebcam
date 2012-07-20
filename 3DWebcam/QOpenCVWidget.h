@@ -1,10 +1,23 @@
+/**
+ *  QOpenCVWidget.h
+ *
+ *  This file is part of 3DWebcam
+ *
+ *  Author: Nicolas Kniebihler
+ *
+ *  Inspired by Alban Perli's article "How to use OpenCV with Qt" :
+ *  http://alban-perli.over-blog.com/article-how-to-use-opencv-with-qt-67901034.html
+ *	
+ *  Copyright © 2012. All rights reserved.
+ *
+ */
+
 #ifndef QOPENCVWIDGET_H
 #define QOPENCVWIDGET_H
 
-#ifdef _WIN32
-#define _CRT_SECURE_NO_DEPRECATE
-#endif
-
+//-------------------------------------------------------------------
+// Includes
+//-------------------------------------------------------------------
 #include <cv.h>
 #include <QPixmap>
 #include <QLabel>
@@ -12,6 +25,8 @@
 #include <QVBoxLayout>
 #include <QImage>
 #include <stdio.h>
+//-------------------------------------------------------------------
+
 
 class QOpenCVWidget : public QWidget {
 	private:

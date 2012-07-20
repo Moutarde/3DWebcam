@@ -29,6 +29,7 @@ http://pr.willowgarage.com/wiki/OpenCV
 Modified by Martin Peris Martorell (info@martinperis.com) in order to accept some configuration
 parameters and store all the calibration data as xml files.
 
+Modified by Nicolas Kniebihler in order to be compatible with the 3DWebcam project.
 */
 
 #include "StereoCalib.h"

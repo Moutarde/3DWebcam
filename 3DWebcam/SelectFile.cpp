@@ -1,4 +1,23 @@
+/**
+ *  SelectFile.cpp
+ *
+ *  This file is part of 3DWebcam
+ *
+ *  This is a window that allows the user to select the paths
+ *  where he wants to save the video files.
+ *
+ *  Author: Nicolas Kniebihler
+ *	
+ *  Copyright © 2012. All rights reserved.
+ *
+ */
+
+//-------------------------------------------------------------------
+// Includes
+//-------------------------------------------------------------------
 #include "SelectFile.h"
+//-------------------------------------------------------------------
+
 
 SelectFile::SelectFile(int nbCam, QWidget *parent) : QWidget(parent), nbCam(nbCam) {
 	QVBoxLayout *sFLayout = new QVBoxLayout;

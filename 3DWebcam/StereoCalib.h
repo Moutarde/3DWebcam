@@ -1,10 +1,20 @@
+/**
+ *  StereoCalib.h
+ *
+ *  This file is part of 3DWebcam
+ *
+ *  Author: Nicolas Kniebihler
+ *	
+ *  Copyright © 2012. All rights reserved.
+ *
+ */
+
 #ifndef STEREOCALIB_H
 #define STEREOCALIB_H
 
-#ifdef _WIN32
-#define _CRT_SECURE_NO_DEPRECATE
-#endif
-
+//-------------------------------------------------------------------
+// Includes
+//-------------------------------------------------------------------
 #include <cv.h>
 #include <cxmisc.h>
 #include <highgui.h>
@@ -19,6 +29,8 @@
 #include <QDir>
 
 #include "QOpenCVWidget.h"
+//-------------------------------------------------------------------
+
 
 using namespace std;
 

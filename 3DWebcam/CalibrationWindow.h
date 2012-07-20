@@ -1,10 +1,20 @@
+/**
+ *  CalibrationWindow.h
+ *
+ *  This file is part of 3DWebcam
+ *
+ *  Author: Nicolas Kniebihler
+ *	
+ *  Copyright © 2012. All rights reserved.
+ *
+ */
+
 #ifndef CALIBRATIONWINDOW_H
 #define CALIBRATIONWINDOW_H
 
-#ifdef _WIN32
-#define _CRT_SECURE_NO_DEPRECATE
-#endif
-
+//-------------------------------------------------------------------
+// Includes
+//-------------------------------------------------------------------
 #include <QApplication>
 #include <QVBoxLayout>
 #include <QPushButton>
@@ -14,6 +24,8 @@
 
 #include "StereoCalib.h"
 #include "MyCameraWindow.h"
+//-------------------------------------------------------------------
+
 
 using namespace std;
 using namespace cv;

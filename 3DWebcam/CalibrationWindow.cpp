@@ -1,4 +1,24 @@
+/**
+ *  CalibrationWindow.cpp
+ *
+ *  This file is part of 3DWebcam
+ *
+ *  This class is the calibration window.
+ *  The user can calibrate two cameras by taking pictures
+ *  of the OpenCV "chess board" in different positions.
+ *
+ *  Author: Nicolas Kniebihler
+ *
+ *  Copyright © 2012. All rights reserved.
+ *
+ */
+
+//-------------------------------------------------------------------
+// Includes
+//-------------------------------------------------------------------
 #include "CalibrationWindow.h"
+//-------------------------------------------------------------------
+
 
 CalibrationWindow::CalibrationWindow(blVideoThread2 *rightCam, blVideoThread2 *leftCam, QWidget *parent) : QWidget(parent) {
 	rightCamera = rightCam;
@@ -53,23 +73,33 @@ CalibrationWindow::CalibrationWindow(blVideoThread2 *rightCam, blVideoThread2 *l
 CalibrationWindow::~CalibrationWindow(void) {}
 
 void CalibrationWindow::timerEvent(QTimerEvent*) {
-	IplImage* rightTmp;
-	IplImage* leftTmp;
+	// Create IplImages with the defined size
+	IplImage* rightTmp = cvCreateImage(cvSize(WIDTH, HEIGHT), IPL_DEPTH_8U, 3);
+	IplImage* leftTmp = cvCreateImage(cvSize(WIDTH, HEIGHT), IPL_DEPTH_8U, 3);
+	IplImage* tmp;
 
 	#pragma omp parallel sections
 	{
-		// Require an image to the right camera
-		{ rightTmp = cvCloneImage(rightCamera->GetFrame()); }
-		#pragma omp section
 		// Require an image to the left camera
-		{ leftTmp = cvCloneImage(leftCamera->GetFrame()); }
+		{
+			tmp = cvCloneImage(leftCamera->GetFrame());
+			// resize the frame
+			cvResize(tmp, leftTmp);
+		}
+		#pragma omp section
+		// Require an image to the right camera
+		{
+			tmp = cvCloneImage(rightCamera->GetFrame());
+			// resize the frame
+			cvResize(tmp, rightTmp);
+		}
 	}
-
-	// Display the right frame in the widget
-	rightCVWidget->putImage(rightTmp);
 
 	// Display the left frame in the widget
 	leftCVWidget->putImage(leftTmp);
+
+	// Display the right frame in the widget
+	rightCVWidget->putImage(rightTmp);
 
 	if(saveReq) {
 		savePicture(rightTmp, leftTmp);

@@ -42,26 +42,26 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3DWebcam</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3DWebcam</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <ExecutablePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)OpenCV2.2\bin;$(ExecutablePath)</ExecutablePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IncludePath);$(ProjectDir)boost;$(ProjectDir)PThread\include;$(ProjectDir)OpenCV2.2\include\opencv;$(ProjectDir)OpenCV2.2\include</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)PThread\lib;$(ProjectDir)OpenCV2.2\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)OpenCV2.2\lib;$(LibraryPath)</LibraryPath>
     <ExecutablePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)OpenCV2.2\bin;$(ExecutablePath)</ExecutablePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IncludePath);$(ProjectDir)boost;$(ProjectDir)PThread\include;$(ProjectDir)OpenCV2.2\include\opencv;$(ProjectDir)OpenCV2.2\include</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)PThread\lib;$(ProjectDir)OpenCV2.2\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)OpenCV2.2\lib;$(LibraryPath)</LibraryPath>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)Qt\4.8.1\include\QtCore;$(ProjectDir)Qt\4.8.1\include\QtGui;$(ProjectDir)Qt\4.8.1\include;.;$(ProjectDir)Qt\4.8.1\include\ActiveQt;debug;$(ProjectDir)Qt\4.8.1\mkspecs\win32-msvc2010;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)JMVC\H264Extension\include;$(ProjectDir)Qt\4.8.1\include\QtCore;$(ProjectDir)Qt\4.8.1\include\QtGui;$(ProjectDir)Qt\4.8.1\include;.;$(ProjectDir)Qt\4.8.1\include\ActiveQt;debug;$(ProjectDir)Qt\4.8.1\mkspecs\win32-msvc2010;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm200 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>debug\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -69,7 +69,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
       <ObjectFileName>debug\</ObjectFileName>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_DLL;QT_GUI_LIB;QT_CORE_LIB;QT_HAVE_MMX;QT_HAVE_3DNOW;QT_HAVE_SSE;QT_HAVE_MMXEXT;QT_HAVE_SSE2;QT_THREAD_SUPPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_DLL;QT_GUI_LIB;QT_CORE_LIB;QT_HAVE_MMX;QT_HAVE_3DNOW;QT_HAVE_SSE;QT_HAVE_MMXEXT;QT_HAVE_SSE2;QT_THREAD_SUPPORT;H264AVCVIDEOIOLIB_LIB;H264AVCCOMMONLIB_LIB;H264AVCENCODERLIB_LIB;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <ProgramDataBaseFileName>.\</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -80,8 +80,8 @@
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(ProjectDir)Qt\4.8.1\lib\qtmain.lib;$(ProjectDir)OpenCV2.2\lib\opencv_core220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_highgui220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_video220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_ml220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_legacy220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_imgproc220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_flann220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_calib3d220d.lib;$(ProjectDir)Qt\4.8.1\lib\QtGui4.lib;$(ProjectDir)Qt\4.8.1\lib\QtCore4.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)Qt\4.8.1\lib;$(ProjectDir)OpenCV2.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(ProjectDir)Qt\4.8.1\lib\qtmain.lib;$(ProjectDir)OpenCV2.2\lib\opencv_core220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_highgui220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_video220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_ml220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_legacy220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_imgproc220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_flann220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_calib3d220d.lib;$(ProjectDir)Qt\4.8.1\lib\QtGui4.lib;$(ProjectDir)Qt\4.8.1\lib\QtCore4.lib;odbc32.lib;odbccp32.lib;pthreadVCE2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Qt\4.8.1\lib;$(ProjectDir)OpenCV2.2\lib;$(ProjectDir)PThread\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -102,7 +102,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)Qt\4.8.1\include\QtCore;$(ProjectDir)Qt\4.8.1\include\QtGui;$(ProjectDir)Qt\4.8.1\include;.;$(ProjectDir)Qt\4.8.1\include\ActiveQt;release;$(ProjectDir)Qt\4.8.1\mkspecs\win32-msvc2010;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)JMVC\H264Extension\include;$(ProjectDir)Qt\4.8.1\include\QtCore;$(ProjectDir)Qt\4.8.1\include\QtGui;$(ProjectDir)Qt\4.8.1\include;.;$(ProjectDir)Qt\4.8.1\include\ActiveQt;release;$(ProjectDir)Qt\4.8.1\mkspecs\win32-msvc2010;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm200 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>release\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -110,7 +110,7 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <ObjectFileName>release\</ObjectFileName>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_DLL;QT_NO_DEBUG;QT_GUI_LIB;QT_CORE_LIB;QT_HAVE_MMX;QT_HAVE_3DNOW;QT_HAVE_SSE;QT_HAVE_MMXEXT;QT_HAVE_SSE2;QT_THREAD_SUPPORT;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_DLL;QT_NO_DEBUG;QT_GUI_LIB;QT_CORE_LIB;QT_HAVE_MMX;QT_HAVE_3DNOW;QT_HAVE_SSE;QT_HAVE_MMXEXT;QT_HAVE_SSE2;QT_THREAD_SUPPORT;NDEBUG;EXCEL=1;H264AVCVIDEOIOLIB_LIB;H264AVCCOMMONLIB_LIB;H264AVCENCODERLIB_LIB;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <ProgramDataBaseFileName>.\</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -121,8 +121,8 @@
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(ProjectDir)Qt\4.8.1\lib\qtmain.lib;$(ProjectDir)OpenCV2.2\lib\opencv_core220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_highgui220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_video220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_ml220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_legacy220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_imgproc220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_flann220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_calib3d220d.lib;$(ProjectDir)Qt\4.8.1\lib\QtGui4.lib;$(ProjectDir)Qt\4.8.1\lib\QtCore4.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)Qt\4.8.1\lib;$(ProjectDir)OpenCV2.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(ProjectDir)Qt\4.8.1\lib\qtmain.lib;$(ProjectDir)OpenCV2.2\lib\opencv_core220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_highgui220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_video220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_ml220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_legacy220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_imgproc220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_flann220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_calib3d220d.lib;$(ProjectDir)Qt\4.8.1\lib\QtGui4.lib;$(ProjectDir)Qt\4.8.1\lib\QtCore4.lib;odbc32.lib;odbccp32.lib;pthreadVCE2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Qt\4.8.1\lib;$(ProjectDir)OpenCV2.2\lib;$(ProjectDir)PThread\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -144,11 +144,98 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CalibrationWindow.cpp" />
+    <ClCompile Include="Debug\moc_CalibrationWindow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_SelectFile.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\CabacContextModel.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\CabacContextModel2DBuffer.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\CFMO.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\Frame.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\FrameMng.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\FrameUnit.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\H264AVCCommonLib.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\IntFrame.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\IntraPrediction.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\IntYuvMbBuffer.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\IntYuvPicBuffer.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\LoopFilter.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\MbData.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\MbDataAccess.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\MbDataCtrl.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\MbDataStruct.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\MbMvData.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\MbTransformCoeffs.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\MotionCompensation.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\MotionVectorCalculation.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\Mv.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\ParameterSetMng.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\PictureParameterSet.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\PocCalculator.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\Quantizer.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\QuarterPelFilter.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\ReconstructionBypass.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\ResizeParameters.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\SampleWeighting.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\ScalingMatrix.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\Sei.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\SequenceParameterSet.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\SliceHeader.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\SliceHeaderBase.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\Tables.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\TraceFile.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\Transform.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\YuvBufferCtrl.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\YUVFileParams.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\YuvMbBuffer.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\YuvPicBuffer.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\BitCounter.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\BitWriteBuffer.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\CabacWriter.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\CabaEncoder.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\CodingParameter.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\ControlMngH264AVCEncoder.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\CreaterH264AVCEncoder.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\Distortion.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\H264AVCEncoder.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\H264AVCEncoderLib.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\InputPicBuffer.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\IntraPredictionSearch.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MbCoder.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MbEncoder.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MbTempData.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MotionEstimation.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MotionEstimationCost.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MotionEstimationQuarterPel.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\Multiview.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\NalUnitEncoder.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\PicEncoder.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\RateDistortion.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\RecPicBuffer.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\SequenceStructure.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\SliceEncoder.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\UvlcWriter.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCVideoIoLib\H264AVCVideoIoLib.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCVideoIoLib\LargeFile.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCVideoIoLib\ReadBitstreamFile.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCVideoIoLib\ReadYuvFile.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCVideoIoLib\WriteBitstreamToFile.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCVideoIoLib\WriteYuvaToRgb.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCVideoIoLib\WriteYuvToFile.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\test\H264AVCEncoderLibTest\EncoderCodingParameter.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\test\H264AVCEncoderLibTest\H264AVCEncoderLibTest.cpp" />
+    <ClCompile Include="JMVC\H264Extension\src\test\H264AVCEncoderLibTest\H264AVCEncoderTest.cpp" />
     <ClCompile Include="MyCameraWindow.cpp" />
     <ClCompile Include="QOpenCVWidget.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Release\moc_CalibrationWindow.cpp" />
-    <ClCompile Include="Release\moc_SelectFile.cpp" />
+    <ClCompile Include="Release\moc_CalibrationWindow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Release\moc_SelectFile.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="SelectFile.cpp" />
     <ClCompile Include="SFML\Thread.cpp" />
     <ClCompile Include="StereoCalib.cpp" />
@@ -177,6 +264,40 @@
     <ClInclude Include="blImageAPI\blTexture.hpp" />
     <ClInclude Include="blImageAPI\blVideoThread.hpp" />
     <ClInclude Include="blImageAPI\blVideoThread2.hpp" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\resource.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\BitCounter.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\BitWriteBuffer.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\BitWriteBufferIf.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\CabacWriter.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\CabaEncoder.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\ControlMngH264AVCEncoder.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\Distortion.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\DistortionIf.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\H264AVCEncoder.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\InputPicBuffer.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\IntraPredictionSearch.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MbCoder.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MbEncoder.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MbSymbolWriteIf.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MbTempData.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MotionEstimation.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MotionEstimationCost.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MotionEstimationQuarterPel.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\Multiview.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\NalUnitEncoder.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\PicEncoder.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\RateDistortion.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\RateDistortionIf.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\RecPicBuffer.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\resource.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\SequenceStructure.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\SliceEncoder.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\UvlcWriter.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCVideoIoLib\resource.h" />
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCVideoIoLib\WriteYuvaToRgb.h" />
+    <ClInclude Include="JMVC\H264Extension\src\test\H264AVCEncoderLibTest\EncoderCodingParameter.h" />
+    <ClInclude Include="JMVC\H264Extension\src\test\H264AVCEncoderLibTest\H264AVCEncoderLibTest.h" />
+    <ClInclude Include="JMVC\H264Extension\src\test\H264AVCEncoderLibTest\H264AVCEncoderTest.h" />
     <ClInclude Include="SFML\Config.hpp" />
     <ClInclude Include="SFML\NonCopyable.hpp" />
     <ClInclude Include="SFML\Thread.hpp" />

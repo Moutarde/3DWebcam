@@ -1,4 +1,28 @@
+/**
+ *  QOpenCVWidget.cpp
+ *
+ *  This file is part of 3DWebcam
+ *
+ *  This class is the video widget.
+ *  It allows us to display an IplImage (OpenCV)
+ *  in a Qt interface (QWidget) by converting
+ *  the IplImage in a QImage.
+ *
+ *  Author: Nicolas Kniebihler
+ *
+ *  Inspired by Alban Perli's article "How to use OpenCV with Qt" :
+ *  http://alban-perli.over-blog.com/article-how-to-use-opencv-with-qt-67901034.html
+ *
+ *  Copyright © 2012. All rights reserved.
+ *
+ */
+
+//-------------------------------------------------------------------
+// Includes
+//-------------------------------------------------------------------
 #include "QOpenCVWidget.h"
+//-------------------------------------------------------------------
+
 
 // Constructor
 QOpenCVWidget::QOpenCVWidget(QWidget *parent) : QWidget(parent) {

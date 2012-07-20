@@ -1,7 +1,20 @@
-#ifdef _WIN32
-#define _CRT_SECURE_NO_DEPRECATE
-#endif
+/**
+ *  main.c
+ *
+ *  This file is part of 3DWebcam
+ *
+ *  This is the main file.
+ *  It is the base of the program, and contains the main function.
+ *
+ *  Author: Nicolas Kniebihler
+ *	
+ *  Copyright © 2012. All rights reserved.
+ *
+ */
 
+//-------------------------------------------------------------------
+// Includes
+//-------------------------------------------------------------------
 #include <assert.h>
 #include <QStringList>
 #include <QInputDialog>
@@ -9,19 +22,25 @@
 #include "QOpenCVWidget.h"
 #include "MyCameraWindow.h"
 #include "CalibrationWindow.h"
+//-------------------------------------------------------------------
 
+
+/**
+ *	This is the main function.
+ *	This function is called when the program is launched.
+ */
 int main(int argc, char **argv) {
 	// Qt application
 	QApplication app(argc, argv);
 
 	// Ask the user how many cameras he wants to use
-	QStringList list;
+	QStringList list;		// list of the diferent choices the user can make
 	list << "Only one camera (classic)" << "Two cameras (3D stéréoscopy)";
 	bool ok = false;
 	QString nbCam = QInputDialog::getItem(NULL, "Mode", "How many cameras do you want to use ?", list, 0, false, &ok);
 
-	if(ok && !nbCam.isEmpty()) {
-		if(nbCam == "Only one camera (classic)") {
+	if(ok && !nbCam.isEmpty()) {		// If ok was pressed and a choice was made
+		if(nbCam == "Only one camera (classic)") {		// The user choosed only one camera
 			// Create the webcam capture device and connect it to the webcam
 			blVideoThread2* videoThread = new blVideoThread2;
 			if(!videoThread->ConnectToWebcam(0)) {
@@ -30,6 +49,7 @@ int main(int argc, char **argv) {
 			}
 
 			// Start the thread
+			// Now the capturing runs by itself, in another thread
 			videoThread->StartCapturingThread();
 
 			if(videoThread == NULL) {
@@ -59,6 +79,7 @@ int main(int argc, char **argv) {
 			}
 
 			// Start the threads
+			// Now the capturing runs by itself, in two different threads
 			rightVideoThread->StartCapturingThread();
 			leftVideoThread->StartCapturingThread();
 
@@ -70,15 +91,13 @@ int main(int argc, char **argv) {
 				// Ask the user if he wants to calibrate the cameras
 				int calibrate = QMessageBox::question(NULL, "Calibration", "Do you want to calibrate the cameras ?", QMessageBox::Yes | QMessageBox::No);
 
-				if (calibrate == QMessageBox::Yes)
-				{
+				if (calibrate == QMessageBox::Yes) {
 					// Start the calibration window
 					CalibrationWindow *caliWin = new CalibrationWindow(rightVideoThread, leftVideoThread);
 					caliWin->setWindowTitle("Calibration");
 					caliWin->showMaximized();
 				}
-				else if (calibrate == QMessageBox::No)
-				{
+				else if (calibrate == QMessageBox::No) {
 					// Start the camera window
 					MyCameraWindow *mainWin = new MyCameraWindow(rightVideoThread, leftVideoThread);
 					mainWin->setWindowTitle("Camera");

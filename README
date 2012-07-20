@@ -17,10 +17,17 @@ Details
 This program uses the following libraries :
 	- OpenCV 2.2	-> http://opencv.org/
 	- Qt 4.8.1		-> http://qt.nokia.com/
+	- JMVC
 	- blImageAPI	-> http://www.barbato.us/
 	- SFML			-> http://www.sfml-dev.org/
 	- Boost			-> http://www.boost.org/
-	- PThread
+	- PThread		-> http://sources.redhat.com/pthreads-win32/
+
+The JMVC, blImageAPI and SFML libraries are included in the git repository.
+In fact, blImageAPI is very light and has been slightly modified to work with this project,
+and we only need a small part of SFML (the Thread library).
+Moreover, JMVC is hard to find, so it's included in this repository.
+You will find the copyright, the changes note and the manual in the 3DWebcam/jmvc folder.
 
 
 --------------------
@@ -34,10 +41,6 @@ The libraries folders should be placed into the following folders :
 	- 3DWebcam/boost		->	only the smart_ptr "header-only" library and the other boost headers it needs to work
 	- 3DWebcam/PThread		->	include and lib
 Or you can install the libraries where you want and redo the linking yourself...
-
-The blImageAPI and SFML libraries are included in the git repository.
-In fact, blImageAPI is very light and has been slightly modified to work with this project,
-and we only need a small part of SFML (the Thread library).
 
 Finally, copy the following .dll files in Release and Debug folders :
 	- pthreadVCE2.dll

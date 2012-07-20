@@ -1,11 +1,16 @@
 /**
- *	This is a mixed source of the original Thread.cpp from the SFML Library.
+ *  Thread.cpp
+ *
+ *  This file is part of 3DWebcam
+ *
+ *  This is a mixed source of the original Thread.cpp from the SFML Library.
  *	This can be used for Win32 and Unix environments.
  *	All the required files are in the same folder.
- *	
- *	Modified by Nicolas Kniebihler, 2012
- *	
- *	This file is a part of the 3DWebcam project
+ *
+ *  Author: Nicolas Kniebihler
+ *
+ *  Copyright © 2012. All rights reserved.
+ *
  */
  
 ////////////////////////////////////////////////////////////

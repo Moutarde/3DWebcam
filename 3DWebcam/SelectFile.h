@@ -1,10 +1,20 @@
+/**
+ *  SelectFile.h
+ *
+ *  This file is part of 3DWebcam
+ *
+ *  Author: Nicolas Kniebihler
+ *	
+ *  Copyright © 2012. All rights reserved.
+ *
+ */
+
 #ifndef SELECTFILE_H
 #define SELECTFILE_H
 
-#ifdef _WIN32
-#define _CRT_SECURE_NO_DEPRECATE
-#endif
-
+//-------------------------------------------------------------------
+// Includes
+//-------------------------------------------------------------------
 #include <QFileDialog>
 #include <QLineEdit>
 #include <QVBoxLayout>
@@ -12,6 +22,8 @@
 #include <QPushButton>
 #include <QApplication>
 #include <QWidget>
+//-------------------------------------------------------------------
+
 
 using namespace std;
 

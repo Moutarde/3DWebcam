@@ -1,5 +1,5 @@
 /**
- * Modified by Nicolas Kniebihler
+ * Modified by Nicolas Kniebihler.
  * Adding of some includes.
  */
 

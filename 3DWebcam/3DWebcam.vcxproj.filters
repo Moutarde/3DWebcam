@@ -34,6 +34,48 @@
     <Filter Include="Header Files\blImageAPI">
       <UniqueIdentifier>{76ac01f0-625e-4c8f-99a1-6713cc2be8bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\JMVC">
+      <UniqueIdentifier>{57e28b23-0fa5-42c6-b0f7-4ccace264e86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\JMVC">
+      <UniqueIdentifier>{d66924ef-824a-4984-b955-95f91a94e033}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\JMVC\test">
+      <UniqueIdentifier>{4e14d0c2-ece5-493f-af70-55949215e123}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\JMVC\test">
+      <UniqueIdentifier>{c465445e-ee85-4283-82c8-329e69fd1e32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\JMVC\test\H264AVCEncoderLibTest">
+      <UniqueIdentifier>{5dfc3f40-d2d4-4482-9233-14cb5efd8f8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\JMVC\test\H264AVCEncoderLibTest">
+      <UniqueIdentifier>{25be6160-e54c-455d-a54f-a3363e356dc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\JMVC\lib">
+      <UniqueIdentifier>{ca11f841-b8f3-4213-acde-bb9bade7a563}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\JMVC\lib">
+      <UniqueIdentifier>{8d7c188e-fe2f-49a1-b0f5-ddf8c4802939}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\JMVC\lib\H264AVCEncoderLib">
+      <UniqueIdentifier>{3076e80c-2b79-450a-8b1f-0fd05b807990}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\JMVC\lib\H264AVCEncoderLib">
+      <UniqueIdentifier>{11d11ebf-3d4c-460f-91d4-30db5935f7e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\JMVC\lib\H264AVCCommonLib">
+      <UniqueIdentifier>{ad9cc770-f059-4437-aa7d-5873b8ac0cd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\JMVC\lib\H264AVCCommonLib">
+      <UniqueIdentifier>{00157326-6af9-43a8-a733-ab86de875b44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\JMVC\lib\H264AVCVideoIoLib">
+      <UniqueIdentifier>{8439fcbf-fac9-4a52-ae81-8e79453a1581}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\JMVC\lib\H264AVCVideoIoLib">
+      <UniqueIdentifier>{fb6663b9-fc11-4669-9215-8e9b9092cbd1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyCameraWindow.cpp">
@@ -62,6 +104,243 @@
     </ClCompile>
     <ClCompile Include="SFML\Thread.cpp">
       <Filter>Source Files\SFML</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\test\H264AVCEncoderLibTest\EncoderCodingParameter.cpp">
+      <Filter>Source Files\JMVC\test\H264AVCEncoderLibTest</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\test\H264AVCEncoderLibTest\H264AVCEncoderLibTest.cpp">
+      <Filter>Source Files\JMVC\test\H264AVCEncoderLibTest</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\test\H264AVCEncoderLibTest\H264AVCEncoderTest.cpp">
+      <Filter>Source Files\JMVC\test\H264AVCEncoderLibTest</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\BitCounter.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\BitWriteBuffer.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\CabacWriter.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\CabaEncoder.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\CodingParameter.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\ControlMngH264AVCEncoder.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\CreaterH264AVCEncoder.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\Distortion.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\H264AVCEncoder.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\H264AVCEncoderLib.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\InputPicBuffer.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\IntraPredictionSearch.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MbCoder.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MbEncoder.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MbTempData.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MotionEstimation.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MotionEstimationCost.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MotionEstimationQuarterPel.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\Multiview.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\NalUnitEncoder.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\PicEncoder.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\RateDistortion.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\RecPicBuffer.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\SequenceStructure.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\SliceEncoder.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\UvlcWriter.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\CabacContextModel.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\CabacContextModel2DBuffer.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\CFMO.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\Frame.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\FrameMng.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\FrameUnit.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\H264AVCCommonLib.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\IntFrame.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\IntraPrediction.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\IntYuvMbBuffer.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\IntYuvPicBuffer.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\LoopFilter.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\MbData.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\MbDataAccess.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\MbDataCtrl.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\MbDataStruct.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\MbMvData.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\MbTransformCoeffs.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\MotionCompensation.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\MotionVectorCalculation.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\Mv.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\ParameterSetMng.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\PictureParameterSet.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\PocCalculator.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\Quantizer.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\QuarterPelFilter.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\ReconstructionBypass.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\ResizeParameters.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\SampleWeighting.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\ScalingMatrix.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\Sei.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\SequenceParameterSet.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\SliceHeader.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\SliceHeaderBase.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\Tables.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\TraceFile.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\Transform.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\YuvBufferCtrl.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\YUVFileParams.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\YuvMbBuffer.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\YuvPicBuffer.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCVideoIoLib\H264AVCVideoIoLib.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCVideoIoLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCVideoIoLib\LargeFile.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCVideoIoLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCVideoIoLib\ReadBitstreamFile.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCVideoIoLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCVideoIoLib\ReadYuvFile.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCVideoIoLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCVideoIoLib\WriteBitstreamToFile.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCVideoIoLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCVideoIoLib\WriteYuvaToRgb.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCVideoIoLib</Filter>
+    </ClCompile>
+    <ClCompile Include="JMVC\H264Extension\src\lib\H264AVCVideoIoLib\WriteYuvToFile.cpp">
+      <Filter>Source Files\JMVC\lib\H264AVCVideoIoLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_CalibrationWindow.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_SelectFile.cpp">
+      <Filter>Generated Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +446,108 @@
     </ClInclude>
     <ClInclude Include="blImageAPI\blVideoThread.hpp">
       <Filter>Header Files\blImageAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\test\H264AVCEncoderLibTest\EncoderCodingParameter.h">
+      <Filter>Header Files\JMVC\test\H264AVCEncoderLibTest</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\test\H264AVCEncoderLibTest\H264AVCEncoderLibTest.h">
+      <Filter>Header Files\JMVC\test\H264AVCEncoderLibTest</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\test\H264AVCEncoderLibTest\H264AVCEncoderTest.h">
+      <Filter>Header Files\JMVC\test\H264AVCEncoderLibTest</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\BitCounter.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\BitWriteBuffer.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\BitWriteBufferIf.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\CabacWriter.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\CabaEncoder.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\ControlMngH264AVCEncoder.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\Distortion.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\DistortionIf.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\H264AVCEncoder.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\InputPicBuffer.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\IntraPredictionSearch.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MbCoder.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MbEncoder.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MbSymbolWriteIf.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MbTempData.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MotionEstimation.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MotionEstimationCost.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\MotionEstimationQuarterPel.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\Multiview.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\NalUnitEncoder.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\PicEncoder.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\RateDistortion.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\RateDistortionIf.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\RecPicBuffer.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\resource.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\SequenceStructure.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\SliceEncoder.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\UvlcWriter.h">
+      <Filter>Header Files\JMVC\lib\H264AVCEncoderLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\resource.h">
+      <Filter>Header Files\JMVC\lib\H264AVCCommonLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCVideoIoLib\resource.h">
+      <Filter>Header Files\JMVC\lib\H264AVCVideoIoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCVideoIoLib\WriteYuvaToRgb.h">
+      <Filter>Header Files\JMVC\lib\H264AVCVideoIoLib</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
