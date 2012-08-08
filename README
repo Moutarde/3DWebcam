@@ -36,14 +36,36 @@ Visual Studio 2010
 
 You have to install the above libraries in the 3DWebcam folder in order to compilate the Visual Studio solution.
 The libraries folders should be placed into the following folders :
-	- 3DWebcam/OpenCV2.2	->	bin, include and lib
-	- 3DWebcam/Qt/4.8.1		->	bin, include, lib, mkspecs and src
-	- 3DWebcam/boost		->	only the smart_ptr "header-only" library and the other boost headers it needs to work
-	- 3DWebcam/PThread		->	include and lib
+	- ExternLibraries/OpenCV2.2	->	bin, include and lib
+	- ExternLibraries/Qt/4.8.1	->	bin, include, lib, mkspecs and src
+	- ExternLibraries/boost		->	only the smart_ptr "header-only" library and the other boost headers it needs to work
+	- ExternLibraries/PThread	->	include and lib
 Or you can install the libraries where you want and redo the linking yourself...
 
 Finally, copy the following .dll files in Release and Debug folders :
-	- pthreadVCE2.dll
+	- opencv_calib3d220d.dll
+	- opencv_core220d.dll
+	- opencv_highgui220d.dll
+	- opencv_imgproc220d.dll
 	- QtCore4.dll
 	- QtGui4.dll
+	- QtNetwork4.dll
+	- pthreadVCE2.dll (apparently not necessary on Windows)
 Or you can copy those files in your system folder...
+
+Note that if you want to distribute the .exe file, you will need to include the following .dll,
+as people who don't have Visual Studio on their computer won't have them :
+	- msvcp100.dll
+	- msvcp100d.dll
+	- msvcr100.dll
+	- msvcr100d.dll
+	- vcomp100.dll
+
+
+-----------------
+Other compilers
+-----------------
+
+You will certainly need the libraries named before.
+Install them on your computer and do the linking with you compiler.
+You will also need to create a .pro file for Qt.
