@@ -79,17 +79,17 @@ namespace blImageAPI
     // an image to/from a compressed format (specified
     // at run time by user) staying with the blImage
     // format
-    #include "blEncodeAndDecode.hpp"
+    //#include "blEncodeAndDecode.hpp"
 
     // A collection of functions used to augment
     // images in various ways to make one "big"
     // image.
-    #include "blImageTiling.hpp"
+    //#include "blImageTiling.hpp"
 
     // A collection of simple functions used to
     // serialize/unserialize images to/from a
     // file storage
-    #include "blImageSerialization.hpp"
+    //#include "blImageSerialization.hpp"
 
     // A base class used to wrap OpenCV's CvCapture
     // class with a smart shared_ptr pointer
@@ -99,7 +99,7 @@ namespace blImageAPI
     // take the negative of an image, no matter the
     // depth of the image. (OpenCV does not takes the
     // negative of floating point images)
-    #include "blImageNegative.hpp"
+    //#include "blImageNegative.hpp"
 
     // A collection of simple functions I created
     // to play with image channels
@@ -107,7 +107,7 @@ namespace blImageAPI
 
     // A collection of simple functions I created to
     // convert images from and to the HSV color space
-    #include "blHSV.hpp"
+    //#include "blHSV.hpp"
 
     // A base class used to wrap OpenCV's CvMemStorage
     // with boost::shared_ptr
@@ -116,7 +116,7 @@ namespace blImageAPI
     // A collection of algorithms I wrote to blend
     // two images that emulate adobe photoshop's
     // blending modes
-    #include "blImageBlending.hpp"
+    //#include "blImageBlending.hpp"
 
     // To use the blTexture class you
     // have to define the following macro
@@ -132,20 +132,20 @@ namespace blImageAPI
     // A simple function used to take an image and
     // make it look like it was sketched using a pencil
     // which can be in B/W or in Color
-    #include "blImagePencilSketch.hpp"
+    //#include "blImagePencilSketch.hpp"
 
     // A collection of simple functions I wrote
     // to shift functions up, down, left, right.
     // I will be adding more functions as I build them
-    #include "blImageShifting.hpp"
+    //#include "blImageShifting.hpp"
 
     // A collection of algorithms I wrote to use
     // the blImageAPI for signal processing
-    #include "blSignalProcessing.hpp"
+    //#include "blSignalProcessing.hpp"
 
     // A collection of simple functions I created
     // to plot data on an image
-    #include "blImagePlot.hpp"
+    //#include "blImagePlot.hpp"
 
     // To use the blVideoThread class you
     // have to de fine the following macro

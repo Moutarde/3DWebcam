@@ -15,13 +15,7 @@
 //-------------------------------------------------------------------
 // Includes
 //-------------------------------------------------------------------
-#include <QFileDialog>
-#include <QLineEdit>
-#include <QVBoxLayout>
-#include <QLabel>
-#include <QPushButton>
-#include <QApplication>
-#include <QWidget>
+#include <QtGui>
 //-------------------------------------------------------------------
 
 

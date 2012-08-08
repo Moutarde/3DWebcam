@@ -44,7 +44,7 @@ Modified by Nicolas Kniebihler in order to be compatible with the 3DWebcam proje
 void StereoCalib(const char* imageList, int nx, int ny, int useUncalibrated, float _squareSize)
 {
 	int displayCorners = 1;
-	int showUndistorted = 1;
+	int showUndistorted = 0;
 	bool isVerticalStereo = false;//OpenCV can handle left-right
 	//or up-down camera arrangements
 	const int maxScale = 1;

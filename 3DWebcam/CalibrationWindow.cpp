@@ -20,9 +20,10 @@
 //-------------------------------------------------------------------
 
 
-CalibrationWindow::CalibrationWindow(blVideoThread2 *rightCam, blVideoThread2 *leftCam, QWidget *parent) : QWidget(parent) {
-	rightCamera = rightCam;
-	leftCamera = leftCam;
+CalibrationWindow::CalibrationWindow(VideoHandler* h, QWidget *parent) :
+	QWidget(parent),
+	handler(h)
+{
 	num = 1;
 	saveReq = false;
 
@@ -73,45 +74,19 @@ CalibrationWindow::CalibrationWindow(blVideoThread2 *rightCam, blVideoThread2 *l
 CalibrationWindow::~CalibrationWindow(void) {}
 
 void CalibrationWindow::timerEvent(QTimerEvent*) {
-	// Create IplImages with the defined size
-	IplImage* rightTmp = cvCreateImage(cvSize(WIDTH, HEIGHT), IPL_DEPTH_8U, 3);
-	IplImage* leftTmp = cvCreateImage(cvSize(WIDTH, HEIGHT), IPL_DEPTH_8U, 3);
-	IplImage* tmp;
-
-	#pragma omp parallel sections
-	{
-		// Require an image to the left camera
-		{
-			tmp = cvCloneImage(leftCamera->GetFrame());
-			// resize the frame
-			cvResize(tmp, leftTmp);
-		}
-		#pragma omp section
-		// Require an image to the right camera
-		{
-			tmp = cvCloneImage(rightCamera->GetFrame());
-			// resize the frame
-			cvResize(tmp, rightTmp);
-		}
-	}
-
 	// Display the left frame in the widget
-	leftCVWidget->putImage(leftTmp);
+	leftCVWidget->putImage(handler->getFrame(LEFT));
 
 	// Display the right frame in the widget
-	rightCVWidget->putImage(rightTmp);
+	rightCVWidget->putImage(handler->getFrame(RIGHT));
 
 	if(saveReq) {
-		savePicture(rightTmp, leftTmp);
+		savePicture(handler->getFrame(RIGHT), handler->getFrame(LEFT));
 		saveReq = false;
 	}
-	
-	// Free resources
-	cvReleaseImage(&leftTmp);
-	cvReleaseImage(&rightTmp);
 }
 
-void CalibrationWindow::savePicture(IplImage *rightTmp, IplImage *leftTmp) {
+void CalibrationWindow::savePicture(const blImage< blColor3<unsigned char> >& rightTmp, const blImage< blColor3<unsigned char> >& leftTmp) {
 	// Check if the directory exists
 	if(!QDir("imagenes").exists()) {
 		QDir().mkdir("imagenes");
@@ -167,21 +142,13 @@ void CalibrationWindow::requireSave() {
 }
 
 void CalibrationWindow::signalEnd() {
-	close();
-
 	QMessageBox::information(this, "Calibration running", "Please wait until the calibration is over. This can take a while...");
 
 	StereoCalib("list.txt", 9, 6, 0, 2.5);
 
-	MyCameraWindow *mainWin = new MyCameraWindow(rightCamera, leftCamera);
-	mainWin->setWindowTitle("Camera");
-	mainWin->showMaximized();
+	this->deleteLater();
 }
 
 void CalibrationWindow::signalEndWithoutCali() {
-	close();
-
-	MyCameraWindow *mainWin = new MyCameraWindow(rightCamera, leftCamera);
-	mainWin->setWindowTitle("Camera");
-	mainWin->showMaximized();
+	this->deleteLater();
 }

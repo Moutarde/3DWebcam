@@ -19,11 +19,7 @@
 // Includes
 //-------------------------------------------------------------------
 #include <cv.h>
-#include <QPixmap>
-#include <QLabel>
-#include <QWidget>
-#include <QVBoxLayout>
-#include <QImage>
+#include <QtGui>
 #include <stdio.h>
 //-------------------------------------------------------------------
 
@@ -41,12 +37,12 @@ class QOpenCVWidget : public QWidget {
 		~QOpenCVWidget(void);
 
 		// Convert IplImage to QImage
-		QImage IplImage2QImage(const IplImage *iplImage);
+		QImage IplImage2QImage(const IplImage* iplImage);
 
 		// Convert QImage to IplImage
 		IplImage* qImage2IplImage(const QImage& qImage);
 
-		void putImage(IplImage *);
+		void putImage(const IplImage*);
 		void setImage(QImage img);
 };
 

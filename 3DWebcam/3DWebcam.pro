@@ -6,8 +6,9 @@ TEMPLATE = app
 TARGET = 
 DEPENDPATH += .
 INCLUDEPATH += .
+QT += network
 LIBS += -L".\\OpenCV2.2\\lib" -lopencv_core220d -lopencv_highgui220d -lopencv_video220d -lopencv_ml220d -lopencv_legacy220d -lopencv_imgproc220d -lopencv_flann220d -lopencv_calib3d220d
 
 # Input
-HEADERS += MyCameraWindow.h QOpenCVWidget.h CalibrationWindow.h
-SOURCES += main.cpp MyCameraWindow.cpp QOpenCVWidget.cpp CalibrationWindow.cpp
+HEADERS += MyCameraWindow.h QOpenCVWidget.h CalibrationWindow.h Server.h
+SOURCES += main.cpp MyCameraWindow.cpp QOpenCVWidget.cpp CalibrationWindow.cpp Server.cpp

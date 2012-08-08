@@ -44,31 +44,31 @@
   <PropertyGroup>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3DWebcam</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3DWebcam</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectName)</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
-    <ExecutablePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)OpenCV2.2\bin;$(ExecutablePath)</ExecutablePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IncludePath);$(ProjectDir)boost;$(ProjectDir)PThread\include;$(ProjectDir)OpenCV2.2\include\opencv;$(ProjectDir)OpenCV2.2\include</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)OpenCV2.2\lib;$(LibraryPath)</LibraryPath>
-    <ExecutablePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)OpenCV2.2\bin;$(ExecutablePath)</ExecutablePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IncludePath);$(ProjectDir)boost;$(ProjectDir)PThread\include;$(ProjectDir)OpenCV2.2\include\opencv;$(ProjectDir)OpenCV2.2\include</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)OpenCV2.2\lib;$(LibraryPath)</LibraryPath>
+    <ExecutablePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)ExternLibraries\OpenCV2.2\bin;$(SolutionDir)ExternLibraries\Qt\4.8.1\bin;$(ExecutablePath)</ExecutablePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IncludePath);$(SolutionDir)ExternLibraries;$(SolutionDir)ExternLibraries\boost;$(SolutionDir)ExternLibraries\PThread\include;$(SolutionDir)ExternLibraries\OpenCV2.2\include\opencv;$(SolutionDir)ExternLibraries\OpenCV2.2\include</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)ExternLibraries\OpenCV2.2\lib;$(LibraryPath)</LibraryPath>
+    <ExecutablePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)ExternLibraries;$(SolutionDir)ExternLibraries\OpenCV2.2\bin;$(ExecutablePath)</ExecutablePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IncludePath);$(SolutionDir)ExternLibraries\boost;$(SolutionDir)ExternLibraries\PThread\include;$(SolutionDir)ExternLibraries\OpenCV2.2\include\opencv;$(SolutionDir)ExternLibraries\OpenCV2.2\include</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)ExternLibraries\OpenCV2.2\lib;$(LibraryPath)</LibraryPath>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)JMVC\H264Extension\include;$(ProjectDir)Qt\4.8.1\include\QtCore;$(ProjectDir)Qt\4.8.1\include\QtGui;$(ProjectDir)Qt\4.8.1\include;.;$(ProjectDir)Qt\4.8.1\include\ActiveQt;debug;$(ProjectDir)Qt\4.8.1\mkspecs\win32-msvc2010;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)JMVC\H264Extension\include;$(SolutionDir)ExternLibraries\Qt\4.8.1\include\QtCore;$(SolutionDir)ExternLibraries\Qt\4.8.1\include\QtGui;$(SolutionDir)ExternLibraries\Qt\4.8.1\include;.;$(SolutionDir)ExternLibraries\Qt\4.8.1\include\ActiveQt;debug;$(SolutionDir)ExternLibraries\Qt\4.8.1\mkspecs\win32-msvc2010;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm200 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
-      <AssemblerListingLocation>debug\</AssemblerListingLocation>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <ObjectFileName>debug\</ObjectFileName>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_DLL;QT_GUI_LIB;QT_CORE_LIB;QT_HAVE_MMX;QT_HAVE_3DNOW;QT_HAVE_SSE;QT_HAVE_MMXEXT;QT_HAVE_SSE2;QT_THREAD_SUPPORT;H264AVCVIDEOIOLIB_LIB;H264AVCCOMMONLIB_LIB;H264AVCENCODERLIB_LIB;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <ProgramDataBaseFileName>.\</ProgramDataBaseFileName>
@@ -80,8 +80,8 @@
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(ProjectDir)Qt\4.8.1\lib\qtmain.lib;$(ProjectDir)OpenCV2.2\lib\opencv_core220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_highgui220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_video220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_ml220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_legacy220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_imgproc220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_flann220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_calib3d220d.lib;$(ProjectDir)Qt\4.8.1\lib\QtGui4.lib;$(ProjectDir)Qt\4.8.1\lib\QtCore4.lib;odbc32.lib;odbccp32.lib;pthreadVCE2.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)Qt\4.8.1\lib;$(ProjectDir)OpenCV2.2\lib;$(ProjectDir)PThread\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)ExternLibraries\Qt\4.8.1\lib\qtmain.lib;$(SolutionDir)ExternLibraries\OpenCV2.2\lib\opencv_core220d.lib;$(SolutionDir)ExternLibraries\OpenCV2.2\lib\opencv_highgui220d.lib;$(SolutionDir)ExternLibraries\OpenCV2.2\lib\opencv_video220d.lib;$(SolutionDir)ExternLibraries\OpenCV2.2\lib\opencv_ml220d.lib;$(SolutionDir)ExternLibraries\OpenCV2.2\lib\opencv_legacy220d.lib;$(SolutionDir)ExternLibraries\OpenCV2.2\lib\opencv_imgproc220d.lib;$(SolutionDir)ExternLibraries\OpenCV2.2\lib\opencv_flann220d.lib;$(SolutionDir)ExternLibraries\OpenCV2.2\lib\opencv_calib3d220d.lib;$(SolutionDir)ExternLibraries\Qt\4.8.1\lib\QtGui4.lib;$(SolutionDir)ExternLibraries\Qt\4.8.1\lib\QtCore4.lib;odbc32.lib;odbccp32.lib;pthreadVCE2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)ExternLibraries\Qt\4.8.1\lib;$(SolutionDir)ExternLibraries\OpenCV2.2\lib;$(SolutionDir)ExternLibraries\PThread\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -102,15 +102,15 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)JMVC\H264Extension\include;$(ProjectDir)Qt\4.8.1\include\QtCore;$(ProjectDir)Qt\4.8.1\include\QtGui;$(ProjectDir)Qt\4.8.1\include;.;$(ProjectDir)Qt\4.8.1\include\ActiveQt;release;$(ProjectDir)Qt\4.8.1\mkspecs\win32-msvc2010;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)JMVC\H264Extension\include;$(SolutionDir)ExternLibraries\Qt\4.8.1\include\QtCore;$(SolutionDir)ExternLibraries\Qt\4.8.1\include\QtGui;$(SolutionDir)ExternLibraries\Qt\4.8.1\include\QtNetwork;$(SolutionDir)ExternLibraries\Qt\4.8.1\include;.;$(SolutionDir)ExternLibraries\Qt\4.8.1\include\ActiveQt;release;$(SolutionDir)ExternLibraries\Qt\4.8.1\mkspecs\win32-msvc2010;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm200 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
-      <AssemblerListingLocation>release\</AssemblerListingLocation>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <ObjectFileName>release\</ObjectFileName>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_DLL;QT_NO_DEBUG;QT_GUI_LIB;QT_CORE_LIB;QT_HAVE_MMX;QT_HAVE_3DNOW;QT_HAVE_SSE;QT_HAVE_MMXEXT;QT_HAVE_SSE2;QT_THREAD_SUPPORT;NDEBUG;EXCEL=1;H264AVCVIDEOIOLIB_LIB;H264AVCCOMMONLIB_LIB;H264AVCENCODERLIB_LIB;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_DLL;QT_NO_DEBUG;QT_GUI_LIB;QT_CORE_LIB;QT_NETWORK_LIB;QT_HAVE_MMX;QT_HAVE_3DNOW;QT_HAVE_SSE;QT_HAVE_MMXEXT;QT_HAVE_SSE2;QT_THREAD_SUPPORT;NDEBUG;EXCEL=1;H264AVCVIDEOIOLIB_LIB;H264AVCCOMMONLIB_LIB;H264AVCENCODERLIB_LIB;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <ProgramDataBaseFileName>.\</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -119,10 +119,11 @@
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
       <WarningLevel>Level3</WarningLevel>
       <OpenMPSupport>true</OpenMPSupport>
+      <DisableSpecificWarnings>4100;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(ProjectDir)Qt\4.8.1\lib\qtmain.lib;$(ProjectDir)OpenCV2.2\lib\opencv_core220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_highgui220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_video220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_ml220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_legacy220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_imgproc220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_flann220d.lib;$(ProjectDir)OpenCV2.2\lib\opencv_calib3d220d.lib;$(ProjectDir)Qt\4.8.1\lib\QtGui4.lib;$(ProjectDir)Qt\4.8.1\lib\QtCore4.lib;odbc32.lib;odbccp32.lib;pthreadVCE2.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)Qt\4.8.1\lib;$(ProjectDir)OpenCV2.2\lib;$(ProjectDir)PThread\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)ExternLibraries\Qt\4.8.1\lib\qtmain.lib;$(SolutionDir)ExternLibraries\OpenCV2.2\lib\opencv_core220d.lib;$(SolutionDir)ExternLibraries\OpenCV2.2\lib\opencv_highgui220d.lib;$(SolutionDir)ExternLibraries\OpenCV2.2\lib\opencv_video220d.lib;$(SolutionDir)ExternLibraries\OpenCV2.2\lib\opencv_ml220d.lib;$(SolutionDir)ExternLibraries\OpenCV2.2\lib\opencv_legacy220d.lib;$(SolutionDir)ExternLibraries\OpenCV2.2\lib\opencv_imgproc220d.lib;$(SolutionDir)ExternLibraries\OpenCV2.2\lib\opencv_flann220d.lib;$(SolutionDir)ExternLibraries\OpenCV2.2\lib\opencv_calib3d220d.lib;$(SolutionDir)ExternLibraries\Qt\4.8.1\lib\QtGui4.lib;$(SolutionDir)ExternLibraries\Qt\4.8.1\lib\QtCore4.lib;$(SolutionDir)ExternLibraries\Qt\4.8.1\lib\QtNetwork4.lib;odbc32.lib;odbccp32.lib;pthreadVCE2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)ExternLibraries\Qt\4.8.1\lib;$(SolutionDir)ExternLibraries\OpenCV2.2\lib;$(SolutionDir)ExternLibraries\PThread\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -144,6 +145,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CalibrationWindow.cpp" />
+    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="ClientWindow.cpp" />
     <ClCompile Include="Debug\moc_CalibrationWindow.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -233,12 +236,16 @@
     <ClCompile Include="Release\moc_CalibrationWindow.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Release\moc_Client.cpp" />
+    <ClCompile Include="Release\moc_ClientWindow.cpp" />
     <ClCompile Include="Release\moc_SelectFile.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="SelectFile.cpp" />
     <ClCompile Include="SFML\Thread.cpp" />
     <ClCompile Include="StereoCalib.cpp" />
+    <ClCompile Include="ImageUtil.cpp" />
+    <ClCompile Include="VideoHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blImageAPI\blCaptureDevice.hpp" />
@@ -264,6 +271,25 @@
     <ClInclude Include="blImageAPI\blTexture.hpp" />
     <ClInclude Include="blImageAPI\blVideoThread.hpp" />
     <ClInclude Include="blImageAPI\blVideoThread2.hpp" />
+    <ClInclude Include="ImageUtil.h" />
+    <ClInclude Include="VideoHandler.h" />
+    <ClInclude Include="VideoThread.h" />
+    <CustomBuild Include="Client.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include\QtCore" -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include\QtGui" -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include" -I"." -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include\ActiveQt" -I"release" -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\mkspecs\win32-msvc2010" -D_MSC_VER=1600 -DWIN32 Client.h -o $(IntDir)moc_Client.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MOC Client.h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)moc_Client.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)ExternLibraries\Qt\4.8.1\bin\moc.exe;Client.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)ExternLibraries\Qt\4.8.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include\QtCore" -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include\QtGui" -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include" -I"." -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include\ActiveQt" -I"release" -I$(SolutionDir)ExternLibraries\Qt\4.8.1\mkspecs\win32-msvc2010 -D_MSC_VER=1600 -DWIN32 Client.h -o $(IntDir)moc_Client.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MOC Client.h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)moc_Client.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)ExternLibraries\Qt\4.8.1\bin\moc.exe;Client.h;%(AdditionalInputs)</AdditionalInputs>
+    </CustomBuild>
+    <CustomBuild Include="ClientWindow.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include\QtCore" -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include\QtGui" -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include" -I"." -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include\ActiveQt" -I"release" -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\mkspecs\win32-msvc2010" -D_MSC_VER=1600 -DWIN32 ClientWindow.h -o $(IntDir)moc_ClientWindow.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MOC ClientWindow.h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)moc_ClientWindow.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)ExternLibraries\Qt\4.8.1\bin\moc.exe;ClientWindow.h;%(AdditionalInputs)</AdditionalInputs>
+    </CustomBuild>
     <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCCommonLib\resource.h" />
     <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\BitCounter.h" />
     <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCEncoderLib\BitWriteBuffer.h" />
@@ -303,10 +329,10 @@
     <ClInclude Include="SFML\Thread.hpp" />
     <ClInclude Include="StereoCalib.h" />
     <CustomBuild Include="SelectFile.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Qt\4.8.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I"Qt\4.8.1\include\QtCore" -I"Qt\4.8.1\include\QtGui" -I"Qt\4.8.1\include" -I"." -I"Qt\4.8.1\include\ActiveQt" -I"release" -IQt\4.8.1\mkspecs\win32-msvc2010 -D_MSC_VER=1600 -DWIN32 SelectFile.h -o release\moc_SelectFile.cpp</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include\QtCore" -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include\QtGui" -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include" -I"." -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include\ActiveQt" -I"release" -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\mkspecs\win32-msvc2010" -D_MSC_VER=1600 -DWIN32 SelectFile.h -o $(IntDir)moc_SelectFile.cpp</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MOC SelectFile.h</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\moc_SelectFile.cpp;%(Outputs)</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)Qt\4.8.1\bin\moc.exe;SelectFile.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)moc_SelectFile.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)ExternLibraries\Qt\4.8.1\bin\moc.exe;SelectFile.h;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Qt\4.8.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I"Qt\4.8.1\include\QtCore" -I"Qt\4.8.1\include\QtGui" -I"Qt\4.8.1\include" -I"." -I"Qt\4.8.1\include\ActiveQt" -I"debug" -IQt\4.8.1\mkspecs\win32-msvc2010 -D_MSC_VER=1600 -DWIN32 SelectFile.h -o debug\moc_SelectFile.cpp</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MOC SelectFile.h</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\moc_SelectFile.cpp;%(Outputs)</Outputs>
@@ -317,16 +343,16 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Qt\4.8.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I"Qt\4.8.1\include\QtCore" -I"Qt\4.8.1\include\QtGui" -I"Qt\4.8.1\include" -I"." -I"Qt\4.8.1\include\ActiveQt" -I"debug" -IQt\4.8.1\mkspecs\win32-msvc2010 -D_MSC_VER=1600 -DWIN32 MyCameraWindow.h -o debug\moc_MyCameraWindow.cpp</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MOC MyCameraWindow.h</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\moc_MyCameraWindow.cpp;%(Outputs)</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)Qt\4.8.1\bin\moc.exe;MyCameraWindow.h;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Qt\4.8.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I"Qt\4.8.1\include\QtCore" -I"Qt\4.8.1\include\QtGui" -I"Qt\4.8.1\include" -I"." -I"Qt\4.8.1\include\ActiveQt" -I"release" -IQt\4.8.1\mkspecs\win32-msvc2010 -D_MSC_VER=1600 -DWIN32 MyCameraWindow.h -o release\moc_MyCameraWindow.cpp</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)ExternLibraries\Qt\4.8.1\bin\moc.exe;MyCameraWindow.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include\QtCore" -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include\QtGui" -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include" -I"." -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include\ActiveQt" -I"release" -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\mkspecs\win32-msvc2010" -D_MSC_VER=1600 -DWIN32 MyCameraWindow.h -o $(IntDir)moc_MyCameraWindow.cpp</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MOC MyCameraWindow.h</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\moc_MyCameraWindow.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)moc_MyCameraWindow.cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="CalibrationWindow.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Qt\4.8.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I"Qt\4.8.1\include\QtCore" -I"Qt\4.8.1\include\QtGui" -I"Qt\4.8.1\include" -I"." -I"Qt\4.8.1\include\ActiveQt" -I"release" -IQt\4.8.1\mkspecs\win32-msvc2010 -D_MSC_VER=1600 -DWIN32 CalibrationWindow.h -o release\moc_CalibrationWindow.cpp</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include\QtCore" -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include\QtGui" -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include" -I"." -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\include\ActiveQt" -I"release" -I"$(SolutionDir)ExternLibraries\Qt\4.8.1\mkspecs\win32-msvc2010" -D_MSC_VER=1600 -DWIN32 CalibrationWindow.h -o $(IntDir)moc_CalibrationWindow.cpp</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MOC CalibrationWindow.h</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\moc_CalibrationWindow.cpp;%(Outputs)</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)Qt\4.8.1\bin\moc.exe;CalibrationWindow.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)moc_CalibrationWindow.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)ExternLibraries\Qt\4.8.1\bin\moc.exe;CalibrationWindow.h;%(AdditionalInputs)</AdditionalInputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Qt\4.8.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I"Qt\4.8.1\include\QtCore" -I"Qt\4.8.1\include\QtGui" -I"Qt\4.8.1\include" -I"." -I"Qt\4.8.1\include\ActiveQt" -I"debug" -IQt\4.8.1\mkspecs\win32-msvc2010 -D_MSC_VER=1600 -DWIN32 CalibrationWindow.h -o debug\moc_CalibrationWindow.cpp</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MOC CalibrationWindow.h</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\moc_CalibrationWindow.cpp;%(Outputs)</Outputs>

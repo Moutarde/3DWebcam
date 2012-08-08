@@ -342,6 +342,24 @@
     <ClCompile Include="Debug\moc_SelectFile.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_ClientWindow.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_Client.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="MyCameraWindow.h">
@@ -354,6 +372,12 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="CalibrationWindow.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ClientWindow.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Client.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -548,6 +572,15 @@
     </ClInclude>
     <ClInclude Include="JMVC\H264Extension\src\lib\H264AVCVideoIoLib\WriteYuvaToRgb.h">
       <Filter>Header Files\JMVC\lib\H264AVCVideoIoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoThread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoHandler.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

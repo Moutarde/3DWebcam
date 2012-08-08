@@ -1,18 +1,18 @@
 /**
-*  MyCameraWindow.cpp
-*
-*  This file is part of 3DWebcam
-*
-*  This class is the main window, where the videos are displayed.
-*
-*  Author: Nicolas Kniebihler
-*
-*  Inspired by Alban Perli's article "How to use OpenCV with Qt" :
-*  http://alban-perli.over-blog.com/article-how-to-use-opencv-with-qt-67901034.html
-*
-*  Copyright © 2012. All rights reserved.
-*
-*/
+ *  MyCameraWindow.cpp
+ *
+ *  This file is part of 3DWebcam
+ *
+ *  This class is the main window, where the videos are displayed.
+ *
+ *  Author: Nicolas Kniebihler
+ *
+ *  Inspired by Alban Perli's article "How to use OpenCV with Qt" :
+ *  http://alban-perli.over-blog.com/article-how-to-use-opencv-with-qt-67901034.html
+ *
+ *  Copyright © 2012. All rights reserved.
+ *
+ */
 
 //-------------------------------------------------------------------
 // Includes
@@ -21,80 +21,33 @@
 //-------------------------------------------------------------------
 
 
-MyCameraWindow::MyCameraWindow(blVideoThread2 *rightCam, blVideoThread2 *leftCam, QWidget *parent) :
-QMainWindow(parent),
-	// Cameras and recorders init
-	rightCamera(rightCam),
-	leftCamera(leftCam),
-	rightWriter(0),
-	leftWriter(0)
+MyCameraWindow::MyCameraWindow(VideoHandler* h, QWidget *parent) :
+	QMainWindow(parent),
+	// Handler init
+	handler(h)
 {
 	// Initialisation
 	init();
 
-	// Set the calibration matrices
-	Q = (CvMat *)cvLoad("matrices/Q.xml",NULL,NULL,NULL);
-	mx1 = (CvMat *)cvLoad("matrices/mx1.xml",NULL,NULL,NULL);
-	my1 = (CvMat *)cvLoad("matrices/my1.xml",NULL,NULL,NULL);
-	mx2 = (CvMat *)cvLoad("matrices/mx2.xml",NULL,NULL,NULL);
-	my2 = (CvMat *)cvLoad("matrices/my2.xml",NULL,NULL,NULL);
+	// Initialise the extern buttons window
+	initExternButtonsWindow();
 
-	// Display menu
-	initDispMenu();
-
-	// Options menu
-	initOptionMenu();
-
-	// Ready
-	statBar->showMessage("Ready");
-
-	// Start the timer (call to timerEvent() every 25ms)
-	startTimer(25);
-}
-
-MyCameraWindow::MyCameraWindow(blVideoThread2 *cam, QWidget *parent) :
-QMainWindow(parent),
-	// Cameras and recorders init
-	rightCamera(cam),
-	leftCamera(NULL),
-	rightWriter(0),
-	leftWriter(0)
-{
-	// Initialisation
-	init();
-
-	// Options menu
-	initOptionMenu();
-
-	// Ready
-	statBar->showMessage("Ready");
-
-	//Check if the directory exists
-	if(!QDir("video_qp32").exists()) {
-		QDir().mkdir("video_qp32");
+	if(handler->getNbCam() == 2) {
+		// Display menu
+		initDispMenu();
 	}
 
-	int isColor = 1;
-	int fps     = 25;
-	start->setEnabled(false);
-	stop->setEnabled(true);
-	menuOpt->setEnabled(false);
-	rightWriter = cvCreateVideoWriter("video_qp32/video_0.yuv", CV_FOURCC('I','Y','U','V'), fps, cvSize(WIDTH,HEIGHT), isColor);
-	statBar->showMessage("Recording...");
-	rightFramesNb = 0;
+	// Options menu
+	initOptionMenu();
+
+	// Ready
+	statBar->showMessage("Ready");
 
 	// Start the timer (call to timerEvent() every 25ms)
 	startTimer(25);
 }
 
 MyCameraWindow::~MyCameraWindow(void) {
-	cvReleaseMat(&Q);
-	cvReleaseMat(&mx1);
-	cvReleaseMat(&my1);
-	cvReleaseMat(&mx2);
-	cvReleaseMat(&my2);
-	cvReleaseVideoWriter(&rightWriter);
-	cvReleaseVideoWriter(&leftWriter);
 	delete selectFile;
 }
 
@@ -106,146 +59,30 @@ void MyCameraWindow::timerEvent(QTimerEvent*) {
 	float t = 0;
 	/*-------------*/
 
-	frame_cpt++;
-	if(frame_cpt == 15) {
-		frame_cpt = 0;
-	}
-
-	/*--- STATS ---*/
-	nEx_grabFrame++;
-	clock_t beginTime = clock();
-	/*-------------*/
-
-	// Create IplImages with the defined size
-	IplImage* rightTmp = cvCreateImage(cvSize(WIDTH, HEIGHT), IPL_DEPTH_8U, 3);
-	IplImage* leftTmp = cvCreateImage(cvSize(WIDTH, HEIGHT), IPL_DEPTH_8U, 3);
-	IplImage* tmp;
-
-#pragma omp parallel sections
-	{
-		// Require an image to the left camera
-		{
-			if(leftCamera != NULL) {
-				tmp = cvCloneImage(leftCamera->GetFrame());
-				// resize the frame
-				cvResize(tmp, leftTmp);
-			}
-		}
-#pragma omp section
-		// Require an image to the right camera
-		{
-			tmp = cvCloneImage(rightCamera->GetFrame());
-			// resize the frame
-			cvResize(tmp, rightTmp);
-		}
-	}
-
-	/*--- STATS ---*/
-	clock_t endTime = clock();
-	t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
-	tEx_grabFrame = ((nEx_grabFrame-1)/nEx_grabFrame) * tEx_grabFrame + (1/nEx_grabFrame) * t;
-	/*-------------*/
-
-	// remove distorsions
-	if (useCalibration) {
-#pragma omp parallel sections
-		{
-			{ removeDist(leftTmp, mx1, my1); }
-#pragma omp section
-			{ removeDist(rightTmp, mx2, my2); }
-		}
-	}
-
+	// We want to know the display mode
 	switch (mode) {
-	case NORMAL:
-		if (convertYCbCr || leftCamera == NULL) {
-			// Convert frame into YCbCr format
-			/*--- STATS ---*/
-			nEx_bgr2ycrcb++;
-			beginTime = clock();
-			/*-------------*/
-
-#pragma omp parallel sections
-			{
-				{
-					if(leftCamera != NULL) {
-						bgr2ycrcb(leftTmp);
-					}
-				}
-#pragma omp section
-				{ bgr2ycrcb(rightTmp); }
-			}
-
-			/*--- STATS ---*/
-			endTime = clock();
-			t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
-			tEx_bgr2ycrcb = ((nEx_bgr2ycrcb-1)/nEx_bgr2ycrcb) * tEx_bgr2ycrcb + (1/nEx_bgr2ycrcb) * t;
-			/*-------------*/
-
-			if(leftCamera != NULL) {
-				// Show the selected layers
-				switch (modeYUV) {
-				case YUV_MODE:
-					break;
-				case Y_ONLY:
-				case U_ONLY:
-				case V_ONLY:
-#pragma omp parallel sections
-					{
-						{
-							if(leftCamera != NULL) {
-								extractLayer(leftTmp, modeYUV);
-							}
-						}
-#pragma omp section
-						{ extractLayer(rightTmp, modeYUV); }
-					}
-					break;
-				}
+		case NORMAL:
+			// Display the frames
+			if(handler->getNbCam() == 2) {	// If there is two cameras
+				dispFrames(handler->getFrame(LEFT), handler->getFrame(RIGHT));
 			}
 			else {
-				switch (modeRGB) {
-				case RGB_MODE:
-					break;
-				case R_ONLY:
-				case G_ONLY:
-				case B_ONLY:
-#pragma omp parallel sections
-					{
-						{
-							if(leftCamera != NULL) {
-								extractLayer(leftTmp, modeRGB);
-							}
-						}
-#pragma omp section
-						{ extractLayer(rightTmp, modeRGB); }
-					}
-					break;
-				}
+				dispFrames(handler->getFrame(ALONE));
 			}
-		}
-		// Display the frames
-		if(leftCamera != NULL) {
-			dispFrames(leftTmp, rightTmp);
-		}
-		else {
-			dispFrames(rightTmp);
-		}
-		break;
-	case SPLITED_3D:
-		// Display the frames side by side with splited color channels
-		// right : only red channel
-		// left : green and blue channels (cyan)
-		disp3DImageSplited(leftTmp, rightTmp);
-		break;
-	case MERGED_3D:
-		// Display the frames one a top of the other with splited color channels
-		disp3DImage(leftTmp, rightTmp);
-		break;
+			break;
+		case SPLITED_3D:
+			// Display the frames side by side with splited color channels
+			// right : only red channel
+			// left : green and blue channels (cyan)
+			disp3DImageSplited(handler->getFrame(LEFT), handler->getFrame(RIGHT));
+			break;
+		case MERGED_3D:
+			// Display the frames one a top of the other with splited color channels
+			disp3DImage(handler->getFrame(LEFT), handler->getFrame(RIGHT));
+			break;
 	}
 
-	// If it is recording, write the video file
-	if((rightWriter != 0 && leftWriter != 0) || (rightWriter != 0 && leftCamera == NULL)) {
+	if(handler->isRecording()) {	// If it is recording
 		// Increment timer and clock
 		if(timer == 0) {
 			timer++;
@@ -253,55 +90,27 @@ void MyCameraWindow::timerEvent(QTimerEvent*) {
 			dispTime(clk);
 			clk++;
 		}
-		else if (timer == 49) {
+		else if (timer == 39) {
 			timer = 0;
 		}
 		else {
 			timer++;
 		}
 		
-		/*--- STATS ---*/
-		nEx_cvWriteFrame++;
-		beginTime = clock();
-		/*-------------*/
-
-#pragma omp parallel sections
-		{
-			{
-				if(leftCamera != NULL) {
-					cvWriteFrame(leftWriter, leftTmp);
-				}
-			}
-#pragma omp section
-			{ cvWriteFrame(rightWriter, rightTmp); }
-		}
-
-		/*--- STATS ---*/
-		endTime = clock();
-		t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
-		tEx_cvWriteFrame = ((nEx_cvWriteFrame-1)/nEx_cvWriteFrame) * tEx_cvWriteFrame + (1/nEx_cvWriteFrame) * t;
-		/*-------------*/
-
-		if(frame_cpt == 0 && rightFramesNb < 20 && leftCamera == NULL) {
-			cvReleaseVideoWriter(&rightWriter);
-			rightWriter = cvCreateVideoWriter("video_qp32/video.yuv", CV_FOURCC('I','Y','U','V'), 25, cvSize(WIDTH,HEIGHT), 1);
-
-			Thread* t = new Thread((Thread::FuncType)encode);
-			t->Launch();
-		}
-
-		if(leftCamera != NULL) {
-			leftFramesNb++;
-		}
-		rightFramesNb++;
+		// Write the video file(s)
+		handler->saveFrame();
 	}
-
-	// Free resources
-	if(leftCamera != NULL) {
-		cvReleaseImage(&leftTmp);
+	else if(handler->isEncoding()) {	// If it is encoding
+		frame_cnt++;
+		
+		// Write the video file(s)
+		handler->saveFrame();
+		
+		// Test if we have saved 15 frames, and stop the encoding if it is the case
+		if(frame_cnt == 15 && handler->getFrameNb() < 20) {
+			stopEncoding();
+		}
 	}
-	cvReleaseImage(&rightTmp);
-	cvReleaseImage(&tmp);
 	
 	/*--- STATS ---*/
 	clock_t endTimeGlobal = clock();
@@ -322,91 +131,80 @@ void MyCameraWindow::timerEvent(QTimerEvent*) {
 	/*-------------*/
 }
 
-void* encode(void* data) {
-	/*--- STATS ---*/
-	nEx_encode++;
-	clock_t beginTime = clock();
-	/*-------------*/
-
-	int argc = 4;
-	char** argv = (char**)malloc(sizeof(char*)*argc);
-	argv[0] = "H264AVCEncoderLibTestStatic.exe";
-	argv[1] = "-vf";
-	argv[2] = "config.cfg";
-	argv[3] = "0";
-
-	H264AVCEncoderTest*         pcH264AVCEncoderTest = NULL;
-	H264AVCEncoderTest::create( pcH264AVCEncoderTest );
-
-	pcH264AVCEncoderTest->init(argc, argv);
-	pcH264AVCEncoderTest->go();
-	pcH264AVCEncoderTest->destroy();
-
-	free(argv);
-	
-	/*--- STATS ---*/
-	clock_t endTime = clock();
-	float t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
-	tEx_encode = ((nEx_encode-1)/nEx_encode) * tEx_encode + (1/nEx_encode) * t;
-	/*-------------*/
-
-	return NULL;
-}
-
 void MyCameraWindow::startRecording(QString rightFile, QString leftFile) {
-	int isColor = 1;
-	int fps     = 25;
+	// Enable and disable buttons
 	start->setEnabled(false);
 	stop->setEnabled(true);
+	encode->setEnabled(false);
 	menuOpt->setEnabled(false);
-	if (convertYCbCr) {
-		rightWriter = cvCreateVideoWriter(rightFile.toStdString().c_str(), CV_FOURCC('I','Y','U','V'), fps, cvSize(WIDTH,HEIGHT), isColor);
-		leftWriter = cvCreateVideoWriter(leftFile.toStdString().c_str(), CV_FOURCC('I','Y','U','V'), fps, cvSize(WIDTH,HEIGHT), isColor);
-	}
-	else {
-		rightWriter = cvCreateVideoWriter(rightFile.toStdString().c_str(), CV_FOURCC('P','I','M','1'), fps, cvSize(WIDTH,HEIGHT), isColor);
-		leftWriter = cvCreateVideoWriter(leftFile.toStdString().c_str(), CV_FOURCC('P','I','M','1'), fps, cvSize(WIDTH,HEIGHT), isColor);
-	}
+
+	// Create a vector with the names of the files
+	// where we want to save the videos
+	vector<QString> files;
+	files.push_back(rightFile);
+	files.push_back(leftFile);
+
+	handler->startRecording(files);
+
 	statBar->showMessage("Recording...");
-	rightFramesNb = 0;
-	leftFramesNb = 0;
 }
 
 void MyCameraWindow::startRecording(QString file) {
-	int isColor = 1;
-	int fps     = 25;
 	start->setEnabled(false);
 	stop->setEnabled(true);
+	encode->setEnabled(false);
 	menuOpt->setEnabled(false);
-	if (convertYCbCr) {
-		rightWriter = cvCreateVideoWriter(file.toStdString().c_str(), CV_FOURCC('I','Y','U','V'), fps, cvSize(WIDTH,HEIGHT), isColor);
-	}
-	else {
-		rightWriter = cvCreateVideoWriter(file.toStdString().c_str(), CV_FOURCC('P','I','M','1'), fps, cvSize(WIDTH,HEIGHT), isColor);
-	}
+
+	vector<QString> files;
+	files.push_back(file);
+
+	handler->startRecording(files);
+
 	statBar->showMessage("Recording...");
-	rightFramesNb = 0;
 }
 
 void MyCameraWindow::stopRecording() {
 	start->setEnabled(true);
 	stop->setEnabled(false);
+	encode->setEnabled(true);
 	menuOpt->setEnabled(true);
-	cvReleaseVideoWriter(&rightWriter);
-	rightWriter = 0;
+
+	int framesNb = handler->stopRecording();
+
+	// Display the number of frames that have been saved
 	ostringstream strStream;
-	strStream << "Frames saved : " << rightFramesNb;
-	if(leftCamera != NULL) {
-		cvReleaseVideoWriter(&leftWriter);
-		leftWriter = 0;
-		strStream << " (right), " << leftFramesNb << " (left)";
-	}
+	strStream << "Frames saved : " << framesNb;
+
 	statBar->showMessage(*(new QString(strStream.str().c_str())));
+
 	timer = 0;
 	clk = 0;
 }
 
-void MyCameraWindow::dispFrames(IplImage *left, IplImage *right) {
+void MyCameraWindow::startEncoding() {
+	start->setEnabled(false);
+	stop->setEnabled(false);
+	encode->setEnabled(false);
+	menuOpt->setEnabled(false);
+
+	handler->startEncoding();
+	
+	statBar->showMessage("Encoding...");
+}
+
+void MyCameraWindow::stopEncoding() {
+	start->setEnabled(true);
+	stop->setEnabled(false);
+	encode->setEnabled(true);
+	menuOpt->setEnabled(true);
+
+	handler->stopEncoding();
+
+	statBar->showMessage("Ready");
+	frame_cnt = 0;
+}
+
+void MyCameraWindow::dispFrames(const blImage< blColor3<unsigned char> >& left, const blImage< blColor3<unsigned char> >& right) {
 	/*--- STATS ---*/
 	nEx_dispFrames++;
 	clock_t beginTime = clock();
@@ -423,7 +221,7 @@ void MyCameraWindow::dispFrames(IplImage *left, IplImage *right) {
 	/*-------------*/
 }
 
-void MyCameraWindow::dispFrames(IplImage *img) {
+void MyCameraWindow::dispFrames(const blImage< blColor3<unsigned char> >& img) {
 	/*--- STATS ---*/
 	nEx_dispFrames++;
 	clock_t beginTime = clock();
@@ -439,7 +237,7 @@ void MyCameraWindow::dispFrames(IplImage *img) {
 	/*-------------*/
 }
 
-void MyCameraWindow::disp3DImageSplited(IplImage *left, IplImage *right) {
+void MyCameraWindow::disp3DImageSplited(const blImage< blColor3<unsigned char> >& left, const blImage< blColor3<unsigned char> >& right) {
 	/*--- STATS ---*/
 	nEx_disp3DImageSplited++;
 	clock_t beginTime = clock();
@@ -482,7 +280,7 @@ void MyCameraWindow::disp3DImageSplited(IplImage *left, IplImage *right) {
 	/*-------------*/
 }
 
-void MyCameraWindow::disp3DImage(IplImage *left, IplImage *right) {
+void MyCameraWindow::disp3DImage(const blImage< blColor3<unsigned char> >& left, const blImage< blColor3<unsigned char> >& right) {
 	/*--- STATS ---*/
 	nEx_disp3DImage++;
 	clock_t beginTime = clock();
@@ -523,104 +321,14 @@ void MyCameraWindow::dispTime(int c) {
 	ostringstream strStream;
 	char* timeStr = (char*)malloc(6*sizeof(char));
 
-	int min = c / 60;
-	int sec = c % 60;
+	int min = c / 60;	// minutes
+	int sec = c % 60;	// seconds
 
 	sprintf(timeStr, "%.2d:%.2d", min, sec);
 	strStream << "Recording... " << timeStr;
 	statBar->showMessage(*(new QString(strStream.str().c_str())));
 
 	free(timeStr);
-}
-
-void MyCameraWindow::removeDist(IplImage* img, const CvMat* mx, const CvMat* my) {
-	/*--- STATS ---*/
-	nEx_removeDist++;
-	clock_t beginTime = clock();
-	/*-------------*/
-
-	IplImage* tmp = cvCloneImage(img);
-	cvRemap(tmp, img, mx, my);
-	cvReleaseImage(&tmp);
-	
-	/*--- STATS ---*/
-	clock_t endTime = clock();
-	float t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
-	tEx_removeDist = ((nEx_removeDist-1)/nEx_removeDist) * tEx_removeDist + (1/nEx_removeDist) * t;
-	/*-------------*/
-}
-
-void MyCameraWindow::bgr2ycrcb(IplImage* img) {
-	/*--- STATS ---*/
-	/*nEx_bgr2ycrcb++;
-	clock_t beginTime = clock();*/
-	/*-------------*/
-
-	IplImage* tmp = cvCloneImage(img);
-	cvCvtColor(tmp, img, CV_BGR2YCrCb);
-	cvReleaseImage(&tmp);
-	
-	/*--- STATS ---*/
-	/*clock_t endTime = clock();
-	float t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
-	tEx_bgr2ycrcb = ((nEx_bgr2ycrcb-1)/nEx_bgr2ycrcb) * tEx_bgr2ycrcb + (1/nEx_bgr2ycrcb) * t;*/
-	/*-------------*/
-}
-
-void MyCameraWindow::ycrcb2bgr(IplImage* img) {
-	IplImage* tmp = cvCloneImage(img);
-	cvCvtColor(tmp, img, CV_YCrCb2BGR);
-	cvReleaseImage(&tmp);
-}
-
-void MyCameraWindow::extractLayer(IplImage* img, int mode) {
-	/*--- STATS ---*/
-	nEx_extractLayer++;
-	clock_t beginTime = clock();
-	/*-------------*/
-
-	CvSize imageSize = cvGetSize(img);
-	IplImage* tmp = cvCloneImage(img);
-	IplImage* extractedLayer = cvCreateImage(imageSize, IPL_DEPTH_8U, 1);
-	IplImage* tmp_layer = cvCreateImage(imageSize, IPL_DEPTH_8U, 1);
-	cvSetZero(tmp_layer);
-
-	switch(mode) {
-	case Y_ONLY:
-		cvSplit(tmp, extractedLayer, NULL, NULL, NULL);
-		cvMerge(extractedLayer, extractedLayer, extractedLayer, NULL, img);
-		break;
-	case U_ONLY:
-		cvSplit(tmp, NULL, extractedLayer, NULL, NULL);
-		cvMerge(extractedLayer, extractedLayer, extractedLayer, NULL, img);
-		break;
-	case V_ONLY:
-		cvSplit(tmp, NULL, NULL, extractedLayer, NULL);
-		cvMerge(extractedLayer, extractedLayer, extractedLayer, NULL, img);
-		break;
-	case B_ONLY:
-		cvSplit(tmp, extractedLayer, NULL, NULL, NULL);
-		cvMerge(extractedLayer, tmp_layer, tmp_layer, NULL, img);
-		break;
-	case G_ONLY:
-		cvSplit(tmp, NULL, extractedLayer, NULL, NULL);
-		cvMerge(tmp_layer, extractedLayer, tmp_layer, NULL, img);
-		break;
-	case R_ONLY:
-		cvSplit(tmp, NULL, NULL, extractedLayer, NULL);
-		cvMerge(tmp_layer, tmp_layer, extractedLayer, NULL, img);
-		break;
-	}
-
-	cvReleaseImage(&tmp);
-	cvReleaseImage(&extractedLayer);
-	cvReleaseImage(&tmp_layer);
-	
-	/*--- STATS ---*/
-	clock_t endTime = clock();
-	float t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
-	tEx_extractLayer = ((nEx_extractLayer-1)/nEx_extractLayer) * tEx_extractLayer + (1/nEx_extractLayer) * t;
-	/*-------------*/
 }
 
 /*--- STATS ---*/
@@ -667,14 +375,7 @@ void MyCameraWindow::init() {
 	// Timer init
 	timer = 0;
 	clk = 0;
-	frame_cpt = 0;
-
-	// Options init
-	useCalibration = false;
-	convertYCbCr = false;
-	mode = NORMAL;
-	modeRGB = RGB_MODE;
-	modeYUV = YUV_MODE;
+	frame_cnt = 0;
 
 	// Write the stats at the end of the program
 	QObject::connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(printStats()));
@@ -684,11 +385,10 @@ void MyCameraWindow::init() {
 	setCentralWidget(central);
 
 	// Layouts
-	QVBoxLayout *layout = new QVBoxLayout;
+	mainLayout = new QVBoxLayout;
 	QHBoxLayout *cameras = new QHBoxLayout;
-	QHBoxLayout *buttons = new QHBoxLayout;
 
-	if(leftCamera != NULL) {
+	if(handler->getNbCam() == 2) {
 		// Create the left widget
 		leftCVWidget = new QOpenCVWidget(this);
 		cameras->addWidget(leftCVWidget);
@@ -698,10 +398,10 @@ void MyCameraWindow::init() {
 	rightCVWidget = new QOpenCVWidget(this);
 	cameras->addWidget(rightCVWidget);
 
-	layout->addLayout(cameras);
+	mainLayout->addLayout(cameras);
 
 	// Create select file window
-	if(leftCamera != NULL) {
+	if(handler->getNbCam() == 2) {
 		selectFile = new SelectFile;
 		QObject::connect(selectFile, SIGNAL(fileSelected(QString, QString)), this, SLOT(startRecording(QString, QString)));
 	}
@@ -710,27 +410,7 @@ void MyCameraWindow::init() {
 		QObject::connect(selectFile, SIGNAL(fileSelected(QString)), this, SLOT(startRecording(QString)));
 	}
 
-	//Create the buttons
-	start = new QPushButton("Start");
-	start->setToolTip("Start recording");
-	QObject::connect(start, SIGNAL(clicked()), selectFile, SLOT(show()));
-
-	stop = new QPushButton("Stop");
-	stop->setToolTip("Stop recording");
-	stop->setEnabled(false);
-	QObject::connect(stop, SIGNAL(clicked()), this, SLOT(stopRecording()));
-
-	exit = new QPushButton("Exit");
-	exit->setToolTip("Exit the program");
-	QObject::connect(exit, SIGNAL(clicked()), qApp, SLOT(quit()));
-
-	buttons->addWidget(start);
-	buttons->addWidget(stop);
-	buttons->addWidget(exit);
-
-	layout->addLayout(buttons);
-
-	central->setLayout(layout);
+	central->setLayout(mainLayout);
 
 	// Status bar
 	statBar = statusBar();
@@ -738,23 +418,75 @@ void MyCameraWindow::init() {
 	// Set the output window
 	/*--- STATS ---*/
 	output = new QTextEdit;
+	output->setWindowTitle("STATS");
 	output->show();
 	/*-------------*/
+}
+
+void MyCameraWindow::initExternButtonsWindow() {
+	QWidget* externButtonsWindow = new QWidget;
+	externButtonsWindow->setWindowTitle("Extern Buttons");
+
+	QVBoxLayout *layout = new QVBoxLayout;
+
+	QLabel* label = new QLabel("These are some buttons you can use\nto control and test the application :");
+	layout->addWidget(label);
+	
+	QHBoxLayout* frameLayout = new QHBoxLayout;
+
+	QFrame* buttonsFrame = new QFrame;
+    buttonsFrame->setFrameShape(QFrame::StyledPanel);
+
+	QVBoxLayout *buttons = new QVBoxLayout;
+
+	//Create the buttons
+	start = new QPushButton("Start");
+	start->setToolTip("Start recording");
+	start->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	QObject::connect(start, SIGNAL(clicked()), selectFile, SLOT(show()));
+
+	stop = new QPushButton("Stop");
+	stop->setToolTip("Stop recording");
+	stop->setEnabled(false);
+	stop->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	QObject::connect(stop, SIGNAL(clicked()), this, SLOT(stopRecording()));
+
+	encode = new QPushButton("Encode");
+	encode->setToolTip("Encode 15 frames");
+	encode->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	QObject::connect(encode, SIGNAL(clicked()), this, SLOT(startEncoding()));
+
+	exit = new QPushButton("Exit");
+	exit->setToolTip("Exit the program");
+	exit->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	QObject::connect(exit, SIGNAL(clicked()), qApp, SLOT(quit()));
+
+	// Add the buttons to the widget
+	buttons->addWidget(start);
+	buttons->addWidget(stop);
+	buttons->addWidget(encode);
+	buttons->addWidget(exit);
+
+	buttonsFrame->setLayout(buttons);
+
+	frameLayout->addStretch();
+	frameLayout->addWidget(buttonsFrame);
+	frameLayout->addStretch();
+
+	layout->addLayout(frameLayout);
+
+	externButtonsWindow->setLayout(layout);
+	externButtonsWindow->show();
 }
 
 void MyCameraWindow::initOptionMenu() {
 	menuOpt = menuBar()->addMenu("&Options");
 
 	// Calibration
-	if(leftCamera != NULL) {
+	if(handler->getNbCam() == 2) {
 		QAction *actUseCali = menuOpt->addAction("&Use the calibration");
 		actUseCali->setCheckable(true);
-		if(Q == NULL || mx1 == NULL || my1 == NULL || mx2 == NULL || my2 == NULL) {
-			actUseCali->setEnabled(false);
-		}
-		else {
-			//actUseCali->setChecked(true);
-		}
+		//actUseCali->setChecked(true);
 
 		// Connect events
 		QObject::connect(actUseCali, SIGNAL(toggled(bool)), this, SLOT(useCali(bool)));
@@ -832,7 +564,7 @@ void MyCameraWindow::initOptionMenu() {
 	menuOpt->addSeparator();
 
 	// Display mode
-	if(leftCamera != NULL) {
+	if(handler->getNbCam() == 2) {
 		QActionGroup *modeGroup = new QActionGroup(this);
 		QAction *actModeNormal = menuOpt->addAction("&Default mode");
 		QAction *actMode3DSplited = menuOpt->addAction("&Show right and left color images splited");
@@ -878,12 +610,17 @@ void MyCameraWindow::initDispMenu() {
 	QObject::connect(actDispBoth, SIGNAL(triggered()), leftCVWidget, SLOT(show()));
 }
 
+QVBoxLayout* MyCameraWindow::getMainLayout() const {
+	return mainLayout;
+}
+
 void MyCameraWindow::useCali(bool b) {
-	useCalibration = b;
+	cout << "useCali from camera window" << endl;
+	handler->useCali(b);
 }
 
 void MyCameraWindow::convertYUV(bool b) {
-	convertYCbCr = b;
+	handler->convertYUV(b);
 }
 
 void MyCameraWindow::setNormalMode() {
@@ -899,33 +636,33 @@ void MyCameraWindow::setMergedMode() {
 }
 
 void MyCameraWindow::setRGBMode() {
-	modeRGB = RGB_MODE;
+	handler->setMode(RGB_MODE);
 }
 
 void MyCameraWindow::setROnlyMode() {
-	modeRGB = R_ONLY;
+	handler->setMode(R_ONLY);
 }
 
 void MyCameraWindow::setGOnlyMode() {
-	modeRGB = G_ONLY;
+	handler->setMode(G_ONLY);
 }
 
 void MyCameraWindow::setBOnlyMode() {
-	modeRGB = B_ONLY;
+	handler->setMode(B_ONLY);
 }
 
 void MyCameraWindow::setYUVMode() {
-	modeYUV = YUV_MODE;
+	handler->setMode(YUV_MODE);
 }
 
 void MyCameraWindow::setYOnlyMode() {
-	modeYUV = Y_ONLY;
+	handler->setMode(Y_ONLY);
 }
 
 void MyCameraWindow::setUOnlyMode() {
-	modeYUV = U_ONLY;
+	handler->setMode(U_ONLY);
 }
 
 void MyCameraWindow::setVOnlyMode() {
-	modeYUV = V_ONLY;
+	handler->setMode(V_ONLY);
 }

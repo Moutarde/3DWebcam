@@ -1,3 +1,8 @@
+/**
+ * Modified by Nicolas Kniebihler.
+ * Made private functions and variables protected.
+ */
+
 #ifndef BL_VIDEOTHREAD2_HPP
 #define BL_VIDEOTHREAD2_HPP
 
@@ -70,14 +75,7 @@ public: // Public functions
 	// Function used to get the captured frame
 	const blImage< blColor3<unsigned char> >&   GetFrame()const;
 
-protected: // Protected variables
-
-	// Frame image buffer which is
-	// used to always have a buffer
-	// available to read continuously
-	blImage< blColor3<unsigned char> >          m_FrameBuffer;
-
-private: // Private functions
+protected: // Protected functions
 
 	// Function used to resize the
 	// frame buffer to match the
@@ -89,14 +87,20 @@ private: // Private functions
 	// frame into the frame buffer
 	void                                        CopyFrameIntoFrameBuffer();
 
-private: // Private variables
+protected: // Protected variables
 
+	// Frame image buffer which is
+	// used to always have a buffer
+	// available to read continuously
+	blImage< blColor3<unsigned char> >          m_FrameBuffer;
+	
 	// Variable used to check whether
 	// the frame buffer is being resized.
 	// This prevents the main program thread
 	// to try to read the buffer while we're
 	// resizing it
 	bool                                        m_IsFrameBufferBeingResized;
+
 };
 //-------------------------------------------------------------------
 

@@ -16,12 +16,14 @@
 // Includes
 //-------------------------------------------------------------------
 #include <assert.h>
-#include <QStringList>
-#include <QInputDialog>
+#include <QtGui>
+#include <QtNetwork>
 
-#include "QOpenCVWidget.h"
 #include "MyCameraWindow.h"
 #include "CalibrationWindow.h"
+#include "Client.h"
+#include "VideoThread.h"
+#include "VideoHandler.h"
 //-------------------------------------------------------------------
 
 
@@ -32,17 +34,17 @@
 int main(int argc, char **argv) {
 	// Qt application
 	QApplication app(argc, argv);
-
+	
 	// Ask the user how many cameras he wants to use
 	QStringList list;		// list of the diferent choices the user can make
-	list << "Only one camera (classic)" << "Two cameras (3D stéréoscopy)";
+	list << "Only one camera (classic)" << "Two cameras (3D stereoscopy)";
 	bool ok = false;
 	QString nbCam = QInputDialog::getItem(NULL, "Mode", "How many cameras do you want to use ?", list, 0, false, &ok);
 
 	if(ok && !nbCam.isEmpty()) {		// If ok was pressed and a choice was made
 		if(nbCam == "Only one camera (classic)") {		// The user choosed only one camera
 			// Create the webcam capture device and connect it to the webcam
-			blVideoThread2* videoThread = new blVideoThread2;
+			VideoThread* videoThread = new VideoThread(ALONE);
 			if(!videoThread->ConnectToWebcam(0)) {
 				QMessageBox::critical(NULL, "Problem with the camera", "The program couldn't find the camera, and will close now.");
 				exit(0);
@@ -57,22 +59,30 @@ int main(int argc, char **argv) {
 				exit(0);
 			}
 			else {
+				// Create the video handler
+				vector<VideoThread*> cameras;
+				cameras.push_back(videoThread);
+				VideoHandler* handler = new VideoHandler(cameras);
+
 				// Start the camera window
-				MyCameraWindow *mainWin = new MyCameraWindow(videoThread);
+				MyCameraWindow *mainWin = new MyCameraWindow(handler);
 				mainWin->setWindowTitle("Camera");
-				mainWin->showMaximized();
+				ClientWindow* window = new ClientWindow;
+				new Client(window);
+				mainWin->getMainLayout()->addWidget(window);
+				mainWin->show();
 			}
 		}
-		else if(nbCam == "Two cameras (3D stéréoscopy)") {
+		else if(nbCam == "Two cameras (3D stereoscopy)") {
 			// Create the webcam capture device and connect it to the webcam
 			// Right
-			blVideoThread2* rightVideoThread = new blVideoThread2;
+			VideoThread* rightVideoThread = new VideoThread(RIGHT);
 			if(!rightVideoThread->ConnectToWebcam(0)) {
 				QMessageBox::critical(NULL, "Problem with the cameras", "The program couldn't find the cameras, and will close now.");
 				exit(0);
 			}
 			// Left
-			blVideoThread2* leftVideoThread = new blVideoThread2;
+			VideoThread* leftVideoThread = new VideoThread(LEFT);
 			if(!leftVideoThread->ConnectToWebcam(0)) {
 				QMessageBox::critical(NULL, "Problem with the cameras", "The program couldn't find the cameras, and will close now.");
 				exit(0);
@@ -88,20 +98,34 @@ int main(int argc, char **argv) {
 				exit(0);
 			}
 			else {
+				// Create the video handler
+				vector<VideoThread*> cameras;
+				cameras.push_back(rightVideoThread);
+				cameras.push_back(leftVideoThread);
+				VideoHandler* handler = new VideoHandler(cameras);
+
+				// Start the camera window
+				MyCameraWindow *mainWin = new MyCameraWindow(handler);
+				mainWin->setWindowTitle("Camera");
+
+				// Create the ClientWindow
+				ClientWindow* window = new ClientWindow;
+				// Create and launch the Client
+				new Client(window);
+				// Add the ClientWindow to the camera window
+				mainWin->getMainLayout()->addWidget(window);
+
+				mainWin->show();
+
 				// Ask the user if he wants to calibrate the cameras
 				int calibrate = QMessageBox::question(NULL, "Calibration", "Do you want to calibrate the cameras ?", QMessageBox::Yes | QMessageBox::No);
-
+				
 				if (calibrate == QMessageBox::Yes) {
 					// Start the calibration window
-					CalibrationWindow *caliWin = new CalibrationWindow(rightVideoThread, leftVideoThread);
+					CalibrationWindow *caliWin = new CalibrationWindow(handler);
 					caliWin->setWindowTitle("Calibration");
-					caliWin->showMaximized();
-				}
-				else if (calibrate == QMessageBox::No) {
-					// Start the camera window
-					MyCameraWindow *mainWin = new MyCameraWindow(rightVideoThread, leftVideoThread);
-					mainWin->setWindowTitle("Camera");
-					mainWin->showMaximized();
+
+					caliWin->show();
 				}
 			}
 		}

@@ -48,7 +48,7 @@ QOpenCVWidget::QOpenCVWidget(QWidget *parent) : QWidget(parent) {
 
 QOpenCVWidget::~QOpenCVWidget(void) {}
 
-void QOpenCVWidget::putImage(IplImage *cvimage) {
+void QOpenCVWidget::putImage(const IplImage *cvimage) {
 	QImage tmpImage;
 
 	// Convert the image in parameter to QImage

@@ -15,15 +15,12 @@
 //-------------------------------------------------------------------
 // Includes
 //-------------------------------------------------------------------
-#include <QApplication>
-#include <QVBoxLayout>
-#include <QPushButton>
-#include <QLineEdit>
-#include <QMessageBox>
+#include <QtGui>
 #include <iostream>
 
 #include "StereoCalib.h"
-#include "MyCameraWindow.h"
+#include "VideoThread.h"
+#include "VideoHandler.h"
 //-------------------------------------------------------------------
 
 
@@ -34,9 +31,9 @@ class CalibrationWindow : public QWidget {
 	Q_OBJECT
 
 	public:
-		CalibrationWindow(blVideoThread2 *rightCam, blVideoThread2 *leftCam, QWidget *parent = 0);
+		CalibrationWindow(VideoHandler* h, QWidget *parent = 0);
 		~CalibrationWindow(void);
-		void savePicture(IplImage *rightTmp, IplImage *leftTmp);
+		void savePicture(const blImage< blColor3<unsigned char> >& rightTmp, const blImage< blColor3<unsigned char> >& leftTmp);
 
 	protected:
 		// this method displays the image from the camera
@@ -57,8 +54,9 @@ class CalibrationWindow : public QWidget {
 		QOpenCVWidget *rightCVWidget;
 		QOpenCVWidget *leftCVWidget;
 		// This allows to deal with the camera's stream
-		blVideoThread2 *rightCamera;
-		blVideoThread2 *leftCamera;
+		//VideoThread *rightCamera;
+		//VideoThread *leftCamera;
+		VideoHandler* handler;
 		// Buttons
 		QPushButton *save;
 		QPushButton *finish;
