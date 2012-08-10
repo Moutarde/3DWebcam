@@ -124,26 +124,24 @@ inline void VideoThread::Run()
 				blImage< blColor3<unsigned char> > tmp;
 				this->QueryFrame(tmp);
 
+				// Resize the frame according to
+				// the WIDTH and HEIGHT constants
+				// set in ImageUtil.h
+				m_Frame.CreateImage(HEIGHT, WIDTH);
+				cvResize(tmp, m_Frame);
+
 				// Now we want to modify the frame
 				// according to the mode
 
 				if (position != ALONE && useCalibration) {
 					// Remove distorsions
 					if(position == LEFT) {
-						cout << "removeDist from left video thread" << endl;
-						removeDist(tmp, mx1, my1);
+						removeDist(m_Frame, mx1, my1);
 					}
 					else if(position == RIGHT) {
-						cout << "removeDist from right video thread" << endl;
-						removeDist(tmp, mx2, my2);
+						removeDist(m_Frame, mx2, my2);
 					}
 				}
-
-				// Resize the frame according to
-				// the WIDTH and HEIGHT constants
-				// set in ImageUtil.h
-				m_Frame.CreateImage(HEIGHT, WIDTH);
-				cvResize(tmp, m_Frame);
 
 				if (convertYCbCr) {
 					// Convert frame into YCbCr format
@@ -186,12 +184,10 @@ inline void VideoThread::useCali(bool b) {
 	if(b) {
 		// Set the calibration matrices
 		if(position == LEFT) {
-			cout << "useCali from left video thread" << endl;
 			mx1 = (CvMat *)cvLoad("matrices/mx1.xml",NULL,NULL,NULL);
 			my1 = (CvMat *)cvLoad("matrices/my1.xml",NULL,NULL,NULL);
 		}
 		else if(position == RIGHT) {
-			cout << "useCali from right video thread" << endl;
 			mx2 = (CvMat *)cvLoad("matrices/mx2.xml",NULL,NULL,NULL);
 			my2 = (CvMat *)cvLoad("matrices/my2.xml",NULL,NULL,NULL);
 		}

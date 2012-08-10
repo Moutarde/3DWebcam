@@ -48,30 +48,6 @@
 static int timer;
 static int clk;
 static int frame_cnt;
-
-/*--- STATS ---*/
-static float tEx_timerEvent;
-static float tEx_grabFrame;
-static float tEx_removeDist;
-static float tEx_bgr2ycrcb;
-static float tEx_extractLayer;
-static float tEx_dispFrames;
-static float tEx_disp3DImageSplited;
-static float tEx_disp3DImage;
-static float tEx_cvWriteFrame;
-static float tEx_encode;
-
-static float nEx_timerEvent;
-static float nEx_grabFrame;
-static float nEx_removeDist;
-static float nEx_bgr2ycrcb;
-static float nEx_extractLayer;
-static float nEx_dispFrames;
-static float nEx_disp3DImageSplited;
-static float nEx_disp3DImage;
-static float nEx_cvWriteFrame;
-static float nEx_encode;
-/*-------------*/
 //-------------------------------------------------------------------
 
 
@@ -106,9 +82,7 @@ class MyCameraWindow : public QMainWindow
 		// Display mode
 		int mode;
 		// Output window
-		/*--- STATS ---*/
-		QTextEdit* output;
-		/*-------------*/
+		/*QTextEdit* output;*/
 
 	public slots:
 		// Recording of the video
@@ -135,9 +109,6 @@ class MyCameraWindow : public QMainWindow
 		void setYOnlyMode();
 		void setUOnlyMode();
 		void setVOnlyMode();
-		/*--- STATS ---*/
-		void printStats();
-		/*-------------*/
 		
 	// Functions
 	public:

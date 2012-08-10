@@ -1,0 +1,6 @@
+You can put the extern libraries in this folder.
+The libraries folders should be placed into the following folders :
+	- OpenCV2.2	->	bin, include and lib
+	- Qt/4.8.1	->	bin, include, lib, mkspecs and src
+	- boost		->	only the smart_ptr "header-only" library and the other boost headers it needs to work
+	- PThread	->	include and lib

@@ -32,11 +32,11 @@ QOpenCVWidget::QOpenCVWidget(QWidget *parent) : QWidget(parent) {
 	hLayout = new QHBoxLayout;
 
 	// initialisation of the label with a new image
-	QImage dummy(100,100,QImage::Format_RGB32);
+	QImage dummy(DISPLAY_WIDTH, DISPLAY_HEIGHT, QImage::Format_RGB32);
 	image = dummy;
 	layout->addWidget(imagelabel);
-	for (int x = 0; x < 100; x ++) {
-		for (int y =0; y < 100; y++) {
+	for (int x = 0; x < DISPLAY_WIDTH; x ++) {
+		for (int y =0; y < DISPLAY_HEIGHT; y++) {
 			image.setPixel(x,y,qRgb(x, y, y));
 		}
 	}
@@ -49,12 +49,17 @@ QOpenCVWidget::QOpenCVWidget(QWidget *parent) : QWidget(parent) {
 QOpenCVWidget::~QOpenCVWidget(void) {}
 
 void QOpenCVWidget::putImage(const IplImage *cvimage) {
-	QImage tmpImage;
+	IplImage* tmpIplImage = cvCreateImage(cvSize(DISPLAY_WIDTH, DISPLAY_HEIGHT), cvimage->depth, cvimage->nChannels);
+	QImage tmpQImage;
+
+	cvResize(cvimage, tmpIplImage);
 
 	// Convert the image in parameter to QImage
-	tmpImage = this->IplImage2QImage(cvimage);
+	tmpQImage = this->IplImage2QImage(tmpIplImage);
 	// Display it in the label
-	imagelabel->setPixmap(QPixmap::fromImage(tmpImage));
+	imagelabel->setPixmap(QPixmap::fromImage(tmpQImage));
+
+	cvReleaseImage(&tmpIplImage);
 }
 
 void QOpenCVWidget::setImage(QImage img) {

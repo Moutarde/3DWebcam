@@ -48,4 +48,8 @@ void removeDist(IplImage* img, const CvMat* mx, const CvMat* my);
 // Extract a color layer
 void extractLayer(IplImage* img, int mode);
 
+// Merge the left and right images in the result image
+// so that the result can be seen in 3D with glasses
+void merge3DImage(const IplImage* left, const IplImage* right, IplImage* result);
+
 #endif // IMAGEUTIL_H

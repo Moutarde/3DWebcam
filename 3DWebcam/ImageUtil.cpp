@@ -78,3 +78,30 @@ void extractLayer(IplImage* img, int mode) {
 	cvReleaseImage(&extractedLayer);
 	cvReleaseImage(&tmp_layer);
 }
+
+void merge3DImage(const IplImage* left, const IplImage* right, IplImage* result) {
+	// Verify the size
+	CvSize imageSize = cvGetSize(left);
+	if(imageSize.height != cvGetSize(right).height || imageSize.width != cvGetSize(right).width) {
+		return;
+	}
+
+	// Split left frame's color channels (format : BGR)
+	IplImage* leftB = cvCreateImage(imageSize, IPL_DEPTH_8U, 1);
+	IplImage* leftG = cvCreateImage(imageSize, IPL_DEPTH_8U, 1);
+	IplImage* leftR = cvCreateImage(imageSize, IPL_DEPTH_8U, 1);
+	cvSplit(left, leftB, leftG, leftR, NULL);
+
+	// Split right frame's color channels (format : BGR)
+	IplImage* rightR = cvCreateImage(imageSize, IPL_DEPTH_8U, 1);
+	cvSplit(right, NULL, NULL, rightR, NULL);
+
+	// Display frames in the left widget
+	cvMerge(leftB, leftG, rightR, NULL, result);
+
+	// Free resources
+	cvReleaseImage(&leftG);
+	cvReleaseImage(&leftR);
+	cvReleaseImage(&leftB);
+	cvReleaseImage(&rightR);
+}

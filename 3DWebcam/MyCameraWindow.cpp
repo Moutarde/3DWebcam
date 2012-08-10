@@ -52,13 +52,6 @@ MyCameraWindow::~MyCameraWindow(void) {
 }
 
 void MyCameraWindow::timerEvent(QTimerEvent*) {
-	/*--- STATS ---*/
-	nEx_timerEvent++;
-	clock_t beginTimeGlobal = clock();
-	ostringstream strStream;
-	float t = 0;
-	/*-------------*/
-
 	// We want to know the display mode
 	switch (mode) {
 		case NORMAL:
@@ -111,24 +104,6 @@ void MyCameraWindow::timerEvent(QTimerEvent*) {
 			stopEncoding();
 		}
 	}
-	
-	/*--- STATS ---*/
-	clock_t endTimeGlobal = clock();
-	t = (float)(endTimeGlobal - beginTimeGlobal) / (CLOCKS_PER_SEC/1000);
-	tEx_timerEvent = ((nEx_timerEvent-1)/nEx_timerEvent) * tEx_timerEvent + (1/nEx_timerEvent) * t;
-
-	strStream << "grabFrame:\t\t" << tEx_grabFrame << " ms" << endl;
-	strStream << "removeDist:\t\t" << tEx_removeDist << " ms" << endl;
-	strStream << "bgr2ycrcb:\t\t" << tEx_bgr2ycrcb << " ms" << endl;
-	strStream << "extractLayer:\t\t" << tEx_extractLayer << " ms" << endl;
-	strStream << "dispFrames:\t\t" << tEx_dispFrames << " ms" << endl;
-	strStream << "disp3DImageSplited:\t" << tEx_disp3DImageSplited << " ms" << endl;
-	strStream << "disp3DImage:\t\t" << tEx_disp3DImage << " ms" << endl;
-	strStream << "cvWriteFrame:\t\t" << tEx_cvWriteFrame << " ms" << endl;
-	strStream << "timerEvent:\t\t" << tEx_timerEvent << " ms" << endl;
-
-	output->setText(*(new QString(strStream.str().c_str())));
-	/*-------------*/
 }
 
 void MyCameraWindow::startRecording(QString rightFile, QString leftFile) {
@@ -205,44 +180,17 @@ void MyCameraWindow::stopEncoding() {
 }
 
 void MyCameraWindow::dispFrames(const blImage< blColor3<unsigned char> >& left, const blImage< blColor3<unsigned char> >& right) {
-	/*--- STATS ---*/
-	nEx_dispFrames++;
-	clock_t beginTime = clock();
-	/*-------------*/
-
 	// Display frames in the widgets
 	leftCVWidget->putImage(left);
 	rightCVWidget->putImage(right);
-	
-	/*--- STATS ---*/
-	clock_t endTime = clock();
-	float t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
-	tEx_dispFrames = ((nEx_dispFrames-1)/nEx_dispFrames) * tEx_dispFrames + (1/nEx_dispFrames) * t;
-	/*-------------*/
 }
 
 void MyCameraWindow::dispFrames(const blImage< blColor3<unsigned char> >& img) {
-	/*--- STATS ---*/
-	nEx_dispFrames++;
-	clock_t beginTime = clock();
-	/*-------------*/
-
 	// Display frame in the widget
 	rightCVWidget->putImage(img);
-	
-	/*--- STATS ---*/
-	clock_t endTime = clock();
-	float t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
-	tEx_dispFrames = ((nEx_dispFrames-1)/nEx_dispFrames) * tEx_dispFrames + (1/nEx_dispFrames) * t;
-	/*-------------*/
 }
 
 void MyCameraWindow::disp3DImageSplited(const blImage< blColor3<unsigned char> >& left, const blImage< blColor3<unsigned char> >& right) {
-	/*--- STATS ---*/
-	nEx_disp3DImageSplited++;
-	clock_t beginTime = clock();
-	/*-------------*/
-
 	// Split left frame's color channels (format : BGR)
 	CvSize imageSize = cvGetSize(left);
 	IplImage* leftB = cvCreateImage(imageSize, IPL_DEPTH_8U, 1);
@@ -272,49 +220,16 @@ void MyCameraWindow::disp3DImageSplited(const blImage< blColor3<unsigned char> >
 	cvReleaseImage(&leftB);
 	cvReleaseImage(&rightR);
 	cvReleaseImage(&empty);
-	
-	/*--- STATS ---*/
-	clock_t endTime = clock();
-	float t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
-	tEx_disp3DImageSplited = ((nEx_disp3DImageSplited-1)/nEx_disp3DImageSplited) * tEx_disp3DImageSplited + (1/nEx_disp3DImageSplited) * t;
-	/*-------------*/
 }
 
 void MyCameraWindow::disp3DImage(const blImage< blColor3<unsigned char> >& left, const blImage< blColor3<unsigned char> >& right) {
-	/*--- STATS ---*/
-	nEx_disp3DImage++;
-	clock_t beginTime = clock();
-	/*-------------*/
+	IplImage* result = cvCreateImage(cvGetSize(left), left.GetDepth(), left.GetNumOfChannels());
+	merge3DImage(left, right, result);
 
-	// Split left frame's color channels (format : BGR)
-	CvSize imageSize = cvGetSize(left);
-	IplImage* leftB = cvCreateImage(imageSize, IPL_DEPTH_8U, 1);
-	IplImage* leftG = cvCreateImage(imageSize, IPL_DEPTH_8U, 1);
-	IplImage* leftR = cvCreateImage(imageSize, IPL_DEPTH_8U, 1);
-	cvSplit(left, leftB, leftG, leftR, NULL);
-
-	// Split right frame's color channels (format : BGR)
-	imageSize = cvGetSize(right);
-	IplImage* rightR = cvCreateImage(imageSize, IPL_DEPTH_8U, 1);
-	cvSplit(right, NULL, NULL, rightR, NULL);
-
-	// Display frames in the left widget
-	IplImage* final = cvCreateImage(imageSize, IPL_DEPTH_8U, 3);
-	cvMerge(leftB, leftG, rightR, NULL, final);
-	leftCVWidget->putImage(final);
+	leftCVWidget->putImage(result);
 
 	// Free resources
-	cvReleaseImage(&final);
-	cvReleaseImage(&leftG);
-	cvReleaseImage(&leftR);
-	cvReleaseImage(&leftB);
-	cvReleaseImage(&rightR);
-	
-	/*--- STATS ---*/
-	clock_t endTime = clock();
-	float t = (float)(endTime - beginTime) / (CLOCKS_PER_SEC/1000);
-	tEx_disp3DImage = ((nEx_disp3DImage-1)/nEx_disp3DImage) * tEx_disp3DImage + (1/nEx_disp3DImage) * t;
-	/*-------------*/
+	cvReleaseImage(&result);
 }
 
 void MyCameraWindow::dispTime(int c) {
@@ -331,47 +246,7 @@ void MyCameraWindow::dispTime(int c) {
 	free(timeStr);
 }
 
-/*--- STATS ---*/
-void MyCameraWindow::printStats() {
-	cout << "Encoding exe time : \t" << tEx_encode << " ms" << endl << endl;
-
-	cout << "grabFrame:\t\t" << tEx_grabFrame << " ms" << endl;
-	cout << "removeDist:\t\t" << tEx_removeDist << " ms" << endl;
-	cout << "bgr2ycrcb:\t\t" << tEx_bgr2ycrcb << " ms" << endl;
-	cout << "extractLayer:\t\t" << tEx_extractLayer << " ms" << endl;
-	cout << "dispFrames:\t\t" << tEx_dispFrames << " ms" << endl;
-	cout << "disp3DImageSplited:\t" << tEx_disp3DImageSplited << " ms" << endl;
-	cout << "disp3DImage:\t\t" << tEx_disp3DImage << " ms" << endl;
-	cout << "cvWriteFrame:\t\t" << tEx_cvWriteFrame << " ms" << endl;
-	cout << "timerEvent:\t\t" << tEx_timerEvent << " ms" << endl;
-}
-/*-------------*/
-
 void MyCameraWindow::init() {
-	/*--- STATS ---*/
-	tEx_timerEvent = 0;
-	tEx_grabFrame = 0;
-	tEx_removeDist = 0;
-	tEx_bgr2ycrcb = 0;
-	tEx_extractLayer = 0;
-	tEx_dispFrames = 0;
-	tEx_disp3DImageSplited = 0;
-	tEx_disp3DImage = 0;
-	tEx_cvWriteFrame = 0;
-	tEx_encode = 0;
-
-	nEx_timerEvent = 0;
-	nEx_grabFrame = 0;
-	nEx_removeDist = 0;
-	nEx_bgr2ycrcb = 0;
-	nEx_extractLayer = 0;
-	nEx_dispFrames = 0;
-	nEx_disp3DImageSplited = 0;
-	nEx_disp3DImage = 0;
-	nEx_cvWriteFrame = 0;
-	nEx_encode = 0;
-	/*-------------*/
-
 	// Timer init
 	timer = 0;
 	clk = 0;
@@ -416,11 +291,9 @@ void MyCameraWindow::init() {
 	statBar = statusBar();
 
 	// Set the output window
-	/*--- STATS ---*/
-	output = new QTextEdit;
-	output->setWindowTitle("STATS");
-	output->show();
-	/*-------------*/
+	/*output = new QTextEdit;
+	output->setWindowTitle("OUTPUT");
+	output->show();*/
 }
 
 void MyCameraWindow::initExternButtonsWindow() {
@@ -615,7 +488,6 @@ QVBoxLayout* MyCameraWindow::getMainLayout() const {
 }
 
 void MyCameraWindow::useCali(bool b) {
-	cout << "useCali from camera window" << endl;
 	handler->useCali(b);
 }
 
