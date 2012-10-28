@@ -35,8 +35,11 @@ class ClientWindow : public QWidget
 		// Display that the client is connected to the server
         void connected();
 
-		// Getter
+		// Getters
 		QString getUsername() const;
+		QStringList getClientsList() const;
+
+		void appendToClientsList(const QString str);
 
     public slots:
 		// Slots called when buttons are clicked
@@ -67,6 +70,8 @@ class ClientWindow : public QWidget
 		QLineEdit* IPServer;
 		QLineEdit* username;
 		QLineEdit* message;
+		QStringList clientsList;
+		QStringListModel* model;
 };
 
 #endif // CLIENTWINDOW_H

@@ -54,8 +54,6 @@ class CalibrationWindow : public QWidget {
 		QOpenCVWidget *rightCVWidget;
 		QOpenCVWidget *leftCVWidget;
 		// This allows to deal with the camera's stream
-		//VideoThread *rightCamera;
-		//VideoThread *leftCamera;
 		VideoHandler* handler;
 		// Buttons
 		QPushButton *save;

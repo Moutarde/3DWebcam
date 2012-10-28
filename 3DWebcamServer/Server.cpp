@@ -115,8 +115,45 @@ void Server::dataRecieved() {
 			sendToAllClients(tr("<strong>") + client->getUsername() + tr("</strong><em> has changed his username to : </em><strong>") + username + "</strong>");
 		}
 		else {
-			// Send to all clients that this client is now connected and identified
-			sendToAllClients(tr("<strong>") + username + tr("</strong><em> has connected</em>"));
+			// Send the username to the clients
+			QByteArray paquet;
+			QDataStream out(&paquet, QIODevice::WriteOnly);
+
+			QString messageToSend = username;
+
+			out << (quint16) 0;
+			out << (quint16) USERNAME;
+			out << messageToSend;
+			out.device()->seek(0);
+			out << (quint16) (paquet.size() - sizeof(quint16));
+
+			sendToAllOtherClients(paquet, client);
+
+			for (int i = 0; i < clients.size(); i++) {
+				if(clients[i] != client) {
+					// Send the username to the server
+					QByteArray paquet;
+					QDataStream out(&paquet, QIODevice::WriteOnly);
+
+					// Create the packet to send
+					QString messageToSend = clients[i]->getUsername();
+
+					// Save space for the packet's size
+					out << (quint16) 0;
+					// Packet's type
+					out << (quint16) USERNAME;
+					// Message
+					out << messageToSend;
+					// Replace the buffer a the beginning of the packet
+					out.device()->seek(0);
+					// Write the packet's size on the space we saved before
+					out << (quint16) (paquet.size() - sizeof(quint16));
+
+					// Send the packet
+					//while(!client->getSocket()->isReadable()){}
+					client->getSocket()->write(paquet);
+				}
+			}
 			client->setConnected(true);
 		}
 		// Change the username

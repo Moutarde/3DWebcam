@@ -23,8 +23,17 @@
 
 ClientWindow::ClientWindow()
 {
+	QHBoxLayout* mainLayout = new QHBoxLayout;
 	QVBoxLayout* verticalLayout_2 = new QVBoxLayout;
 	QHBoxLayout* horizontalLayout = new QHBoxLayout;
+
+	// Clients list
+	QListView* list = new QListView;
+    model = new QStringListModel(clientsList);
+
+	list->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	list->setModel(model);
+
 
 	QLabel* label = new QLabel("Server's IP :");
 
@@ -79,7 +88,10 @@ ClientWindow::ClientWindow()
 	verticalLayout_2->addWidget(messageList);
 	verticalLayout_2->addLayout(horizontalLayout_2);
 
-	setLayout(verticalLayout_2);
+	mainLayout->addWidget(list);
+	mainLayout->addLayout(verticalLayout_2);
+
+	setLayout(mainLayout);
 }
 
 void ClientWindow::on_connectionButton_clicked() {
@@ -121,7 +133,7 @@ void ClientWindow::connected() {
 }
 
 void ClientWindow::disconnected() {
-	messageList->append(tr("<em>Déconnecté du serveur</em>"));
+	messageList->append(tr("<em>Déconnected for server</em>"));
 }
 
 void ClientWindow::errorSocket(QAbstractSocket::SocketError err) {
@@ -140,4 +152,13 @@ void ClientWindow::display(const QString str) {
 
 QString ClientWindow::getUsername() const {
 	return username->text();
+}
+
+QStringList ClientWindow::getClientsList() const {
+	return clientsList;
+}
+
+void ClientWindow::appendToClientsList(const QString str) {
+	clientsList.append(str);
+	model->setStringList(clientsList);
 }

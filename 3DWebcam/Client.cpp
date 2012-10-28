@@ -94,6 +94,15 @@ void Client::dataRecieved() {
 		// Display the message on the chat
 		window->display(messageRecieved);
 	}
+	else if(packetType == USERNAME) {
+		// Now we can get the username
+		QString username;
+		in >> username;
+
+		window->display(tr("<strong>") + username + tr("</strong><em> has connected</em>"));
+
+		window->appendToClientsList(username);
+	}
 	else if(packetType == FILE264) {	// If the packet is a .264 file
 		// Get the file's size
 		quint16 fileSize;
